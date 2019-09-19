@@ -3,27 +3,20 @@ package com.example.connectsys.uteis;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Handler;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.example.jose.connectdrawer.cidade.Cidade;
-import com.example.jose.connectdrawer.main.ConnectMain;
+import com.example.connectsys.main.MainActivity;
 
-import java.lang.reflect.Field;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class Sessao {
     private static Thread thread;
     private static Handler handler;
     private static ProgressBar progressBar;
     private static TextView textoSinc;
-    private static List<Cidade> listaCidade;
     // Variável estática que conterá a instancia da classe
     private static Sessao instance;
     private static Context contextSalvo;
@@ -37,54 +30,6 @@ public class Sessao {
         DecimalFormat decimalFormat = new DecimalFormat("0.00");
         return Double.parseDouble(decimalFormat.format(numero).replace(",", "."));
     }
-
-
-    public static List<Cidade> retornaListaCidade() {
-
-        if (listaCidade == null) {
-            listaCidade = new ArrayList<>();
-            GetSetDinamico getSetDinamico = new GetSetDinamico();
-            Cidade cidade = new Cidade();
-            Cursor cursorCidade = cidade.retornaCidade(Sessao.contextSalvo);
-            List<Field> fieldListCidade = new ArrayList<>(Arrays.asList(cidade.getClass().getDeclaredFields()));
-            for (int i = 0; i < fieldListCidade.size(); i++) {
-                if (fieldListCidade.get(i).getName().toLowerCase().equals("nomecidade") ||
-                        fieldListCidade.get(i).getName().toLowerCase().equals("codcidade") ||
-                        fieldListCidade.get(i).getName().toLowerCase().equals("uf") ||
-                        fieldListCidade.get(i).getName().toLowerCase().equals("codnacionalcidade")) {
-                } else {
-                    fieldListCidade.remove(i);
-                    i = -1;
-                }
-            }
-            int posicao = 0;
-            if (cursorCidade.getCount() > 0) {
-                cursorCidade.moveToFirst();
-                for (int j = 0; cursorCidade.getCount() != j; j++) {
-                    Cidade cidade1 = new Cidade();
-                    for (int f = 0; fieldListCidade.size() != f; f++) {
-
-                        String tipo = getSetDinamico.retornaTipoCampo(fieldListCidade.get(f));
-                        String nomeCampo = fieldListCidade.get(f).getName().toLowerCase();
-                        Object retorno = getSetDinamico.retornaValorCursor(tipo, nomeCampo, cursorCidade);
-                        if (retorno != null) {
-                            Object teste = getSetDinamico.insereField(fieldListCidade.get(f), cidade1, retorno);
-                            cidade1 = (Cidade) teste;
-                        }
-
-
-                    }
-                    cursorCidade.moveToNext();
-                    listaCidade.add(cidade1);
-                }
-            }
-            return listaCidade;
-        } else {
-            return listaCidade;
-        }
-
-    }
-
 
     // Método público estático de acesso único ao objeto!
     public static Sessao getInstance() {
@@ -178,7 +123,7 @@ public class Sessao {
     }
 
     public static void terminaProgress() {
-        Intent intent = new Intent(contextSalvo, ConnectMain.class);
+        Intent intent = new Intent(contextSalvo, MainActivity.class);
         contextSalvo.startActivity(intent);
     }
 

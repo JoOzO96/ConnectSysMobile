@@ -12,6 +12,12 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
+        android:id="@+id/nav_produto"
+        android:name="com.example.connectsys.ui.produto.ProdutoFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/produto_fragment" />
+
+    <fragment
         android:id="@+id/nav_gallery"
         android:name="com.example.connectsys.ui.gallery.GalleryFragment"
         android:label="@string/menu_gallery"
@@ -40,4 +46,16 @@
         android:name="com.example.connectsys.ui.send.SendFragment"
         android:label="@string/menu_send"
         tools:layout="@layout/fragment_send" />
+
+    <fragment
+        android:id="@+id/nav_cliente"
+        android:name="com.example.connectsys.ui.cliente.ClienteFragment"
+        android:label="@string/menu_cliente"
+        tools:layout="@layout/fragment_cliente" />
+
+    <fragment
+        android:id="@+id/nav_sincroniza"
+        android:name="com.example.connectsys.ui.sincroniza.SincronizaFragment"
+        android:label="@string/menu_sinc"
+        tools:layout="@layout/fragment_sincroniza" />
 </navigation>

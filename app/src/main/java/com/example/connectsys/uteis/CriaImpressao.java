@@ -8,10 +8,11 @@ import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Message;
 
-import com.example.jose.connectdrawer.Impressora.BluetoothService;
-import com.example.jose.connectdrawer.Impressora.Command;
-import com.example.jose.connectdrawer.Impressora.PrintPicture;
-import com.example.jose.connectdrawer.Impressora.PrinterCommand;
+import com.example.connectsys.impressora.BluetoothService;
+import com.example.connectsys.impressora.Command;
+import com.example.connectsys.impressora.PrintPicture;
+import com.example.connectsys.impressora.PrinterCommand;
+
 
 /**
  * Created by Usuario on 28/02/2018.
