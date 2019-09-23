@@ -1,6 +1,7 @@
 package com.example.connectsys.main;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,8 +17,8 @@ import com.example.connectsys.uteis.Sessao;
 import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity {
-
     private AppBarConfiguration mAppBarConfiguration;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +38,17 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
         Sessao.setaContext(this);
+        final Handler handler = new Handler();
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Sessao.retornaClientes();
+            }
+        });
+        thread.setPriority(Thread.MAX_PRIORITY);
+        thread.setName("ListaCliente");
+        thread.start();
+
 
     }
 

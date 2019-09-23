@@ -8,22 +8,42 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.connectsys.classes.cidade.Cidade;
+import com.example.connectsys.classes.cliente.Cliente;
 import com.example.connectsys.main.MainActivity;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Sessao {
     private static Thread thread;
     private static Handler handler;
     private static ProgressBar progressBar;
+    private static List<Cliente> listCliente = new ArrayList<>();
+    private static List<Cidade> listCidade = new ArrayList<>();
     private static TextView textoSinc;
-    // Variável estática que conterá a instancia da classe
     private static Sessao instance;
     private static Context contextSalvo;
     private static ProgressDialog progressDialog;
 
-    // Construtor privado (suprime o construtor público padrão).
     private Sessao() {
+    }
+
+    public static List<Cliente> retornaClientes() {
+        if (listCliente.size() == 0) {
+            Cliente cliente = new Cliente();
+            listCliente = cliente.retornaListaCliente(contextSalvo, true);
+        }
+        return listCliente;
+    }
+
+    public static List<Cidade> retornaCidade() {
+        if (listCidade.size() == 0) {
+            Cidade cidade = new Cidade();
+            listCidade = cidade.retornaListaCidade(contextSalvo);
+        }
+        return listCidade;
     }
 
     public static Double retornaFormatado(Double numero) {
@@ -31,7 +51,6 @@ public class Sessao {
         return Double.parseDouble(decimalFormat.format(numero).replace(",", "."));
     }
 
-    // Método público estático de acesso único ao objeto!
     public static Sessao getInstance() {
         if (instance == null)
             instance = new Sessao();

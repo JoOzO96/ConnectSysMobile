@@ -1,6 +1,20 @@
 package com.example.connectsys.classes.cliente;
 
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+
+import com.example.connectsys.banco.Banco;
+import com.example.connectsys.uteis.DadosBanco;
+import com.example.connectsys.uteis.GetSetDinamico;
+
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
+import java.util.Objects;
 
 public class Cliente {
 
@@ -547,4 +561,289 @@ public class Cliente {
     }
 
 
+    @Override
+    public String toString() {
+        return codcliente + " - " + razaosocial;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Cliente)) return false;
+        Cliente cliente = (Cliente) o;
+        return Objects.equals(getCodcliente(), cliente.getCodcliente()) &&
+                Objects.equals(getFisicajuridica(), cliente.getFisicajuridica()) &&
+                Objects.equals(getRazaosocial(), cliente.getRazaosocial()) &&
+                Objects.equals(getNomefantasia(), cliente.getNomefantasia()) &&
+                Objects.equals(getDatacadastro(), cliente.getDatacadastro()) &&
+                Objects.equals(getDatanascimento(), cliente.getDatanascimento()) &&
+                Objects.equals(getDataultimacompra(), cliente.getDataultimacompra()) &&
+                Objects.equals(getCodocupacao(), cliente.getCodocupacao()) &&
+                Objects.equals(getTipoocupacao(), cliente.getTipoocupacao()) &&
+                Objects.equals(getFoneocupacao(), cliente.getFoneocupacao()) &&
+                Objects.equals(getLocalocupacao(), cliente.getLocalocupacao()) &&
+                Objects.equals(getCodcidade(), cliente.getCodcidade()) &&
+                Objects.equals(getCnpj(), cliente.getCnpj()) &&
+                Objects.equals(getInscricaoestadualsuframa(), cliente.getInscricaoestadualsuframa()) &&
+                Objects.equals(getInscricaoestadual(), cliente.getInscricaoestadual()) &&
+                Objects.equals(getCpf(), cliente.getCpf()) &&
+                Objects.equals(getRg(), cliente.getRg()) &&
+                Objects.equals(getTituloeleitoral(), cliente.getTituloeleitoral()) &&
+                Objects.equals(getLimitecredito(), cliente.getLimitecredito()) &&
+                Objects.equals(getFone(), cliente.getFone()) &&
+                Objects.equals(getFonefax(), cliente.getFonefax()) &&
+                Objects.equals(getFonecelular(), cliente.getFonecelular()) &&
+                Objects.equals(getEmail(), cliente.getEmail()) &&
+                Objects.equals(getSite(), cliente.getSite()) &&
+                Objects.equals(getObs(), cliente.getObs()) &&
+                Objects.equals(getEstadocivil(), cliente.getEstadocivil()) &&
+                Objects.equals(getConjugenome(), cliente.getConjugenome()) &&
+                Objects.equals(getConjugedatanascimento(), cliente.getConjugedatanascimento()) &&
+                Objects.equals(getConjugecpf(), cliente.getConjugecpf()) &&
+                Objects.equals(getConjugerg(), cliente.getConjugerg()) &&
+                Objects.equals(getFoneconjuge(), cliente.getFoneconjuge()) &&
+                Objects.equals(getInscricaomunicipal(), cliente.getInscricaomunicipal()) &&
+                Objects.equals(getCodrepresentante(), cliente.getCodrepresentante()) &&
+                Objects.equals(getCodconceito(), cliente.getCodconceito()) &&
+                Objects.equals(getBanco(), cliente.getBanco()) &&
+                Objects.equals(getStatus(), cliente.getStatus()) &&
+                Objects.equals(getMaladireta(), cliente.getMaladireta()) &&
+                Objects.equals(getImagem(), cliente.getImagem()) &&
+                Objects.equals(getEmailnfe(), cliente.getEmailnfe()) &&
+                Objects.equals(getEnviarxml(), cliente.getEnviarxml()) &&
+                Objects.equals(getEnviarpdf(), cliente.getEnviarpdf()) &&
+                Objects.equals(getIssqncidadecliente(), cliente.getIssqncidadecliente()) &&
+                Objects.equals(getRendamensal(), cliente.getRendamensal()) &&
+                Objects.equals(getConjugerendamensal(), cliente.getConjugerendamensal()) &&
+                Objects.equals(getRegimetributario(), cliente.getRegimetributario()) &&
+                Objects.equals(getTratamentotributariodiferenciado(), cliente.getTratamentotributariodiferenciado()) &&
+                Objects.equals(getObsnotapadrao(), cliente.getObsnotapadrao()) &&
+                Objects.equals(getParticularidades(), cliente.getParticularidades()) &&
+                Objects.equals(getPai(), cliente.getPai()) &&
+                Objects.equals(getMae(), cliente.getMae()) &&
+                Objects.equals(getMotivobloqueio(), cliente.getMotivobloqueio()) &&
+                Objects.equals(getPercdesconto(), cliente.getPercdesconto()) &&
+                Objects.equals(getSexo(), cliente.getSexo()) &&
+                Objects.equals(getEndereco(), cliente.getEndereco()) &&
+                Objects.equals(getNumero(), cliente.getNumero()) &&
+                Objects.equals(getComplemento(), cliente.getComplemento()) &&
+                Objects.equals(getCodbairro(), cliente.getCodbairro()) &&
+                Objects.equals(getCep(), cliente.getCep()) &&
+                Objects.equals(getTipoie(), cliente.getTipoie()) &&
+                Objects.equals(getConsumidorfinal(), cliente.getConsumidorfinal());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getCodcliente(), getFisicajuridica(), getRazaosocial(), getNomefantasia(), getDatacadastro(), getDatanascimento(), getDataultimacompra(), getCodocupacao(), getTipoocupacao(), getFoneocupacao(), getLocalocupacao(), getCodcidade(), getCnpj(), getInscricaoestadualsuframa(), getInscricaoestadual(), getCpf(), getRg(), getTituloeleitoral(), getLimitecredito(), getFone(), getFonefax(), getFonecelular(), getEmail(), getSite(), getObs(), getEstadocivil(), getConjugenome(), getConjugedatanascimento(), getConjugecpf(), getConjugerg(), getFoneconjuge(), getInscricaomunicipal(), getCodrepresentante(), getCodconceito(), getBanco(), getStatus(), getMaladireta(), getImagem(), getEmailnfe(), getEnviarxml(), getEnviarpdf(), getIssqncidadecliente(), getRendamensal(), getConjugerendamensal(), getRegimetributario(), getTratamentotributariodiferenciado(), getObsnotapadrao(), getParticularidades(), getPai(), getMae(), getMotivobloqueio(), getPercdesconto(), getSexo(), getEndereco(), getNumero(), getComplemento(), getCodbairro(), getCep(), getTipoie(), getConsumidorfinal());
+    }
+
+    //FUNÇÕES DA CLASSE CLIENTE
+
+    public Cliente retornaCliente(Context context, Long codCliente) {
+        Banco myDb = new Banco(context);
+        Cliente cliente = new Cliente();
+        GetSetDinamico getSetDinamico = new GetSetDinamico();
+        SQLiteDatabase db = myDb.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT rowid _id,* FROM cliente where codcliente = " + codCliente, null);
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+        }
+        List<Field> fieldListCliente = new ArrayList<>(Arrays.asList(Cliente.class.getDeclaredFields()));
+        for (int j = 0; cursor.getCount() != j; j++) {
+            Cliente cliente1 = new Cliente();
+
+            for (int f = 0; fieldListCliente.size() != f; f++) {
+
+                String tipo = getSetDinamico.retornaTipoCampo(fieldListCliente.get(f));
+                String nomeCampo = fieldListCliente.get(f).getName().toLowerCase();
+                Object retorno = getSetDinamico.retornaValorCursor(tipo, nomeCampo, cursor);
+                if (retorno != null) {
+                    Object retCliente = getSetDinamico.insereField(fieldListCliente.get(f), cliente1, retorno);
+                    cliente1 = (Cliente) retCliente;
+                }
+            }
+            cliente = cliente1;
+        }
+        db.close();
+        return cliente;
+    }
+
+    public Cliente retornaClienteSimplificado(Context context, Long codCliente) {
+        Banco myDb = new Banco(context);
+        Cliente cliente = new Cliente();
+        GetSetDinamico getSetDinamico = new GetSetDinamico();
+        SQLiteDatabase db = myDb.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT rowid _id, codcliente, razaosocial FROM cliente where codcliente = " + codCliente, null);
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+        }
+        List<Field> fieldListCliente = new ArrayList<>(Arrays.asList(Cliente.class.getDeclaredFields()));
+
+        for (int j = fieldListCliente.size() - 1; 0 <= j; j--) {
+            if (fieldListCliente.get(j).getName().toLowerCase().equals("codcliente") || fieldListCliente.get(j).getName().toLowerCase().equals("razaosocial")) {
+
+            } else {
+                fieldListCliente.remove(j);
+            }
+        }
+
+        for (int i = 0; cursor.getCount() != i; i++) {
+            Cliente cliente1 = new Cliente();
+
+            for (int f = 0; fieldListCliente.size() != f; f++) {
+
+                String tipo = getSetDinamico.retornaTipoCampo(fieldListCliente.get(f));
+                String nomeCampo = fieldListCliente.get(f).getName().toLowerCase();
+                Object retorno = getSetDinamico.retornaValorCursor(tipo, nomeCampo, cursor);
+                if (retorno != null) {
+                    Object retCliente = getSetDinamico.insereField(fieldListCliente.get(f), cliente1, retorno);
+                    cliente1 = (Cliente) retCliente;
+                }
+            }
+            cliente = cliente1;
+            cursor.moveToNext();
+
+        }
+        db.close();
+        return cliente;
+    }
+
+    public List<Cliente> retornaListaCliente(Context context, Boolean simplificado) {
+        Banco myDb = new Banco(context);
+        List<Cliente> clientes = new ArrayList<>();
+        Cliente cliente = new Cliente();
+        GetSetDinamico getSetDinamico = new GetSetDinamico();
+        SQLiteDatabase db = myDb.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM cliente", null);
+        if (simplificado) {
+            if (cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                for (int i = 0; i < cursor.getCount(); i++) {
+                    cliente = retornaClienteSimplificado(context, cursor.getLong(cursor.getColumnIndex("codcliente")));
+                    clientes.add(cliente);
+                    cursor.moveToNext();
+                }
+            }
+        } else {
+            if (cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                for (int i = 0; i < cursor.getCount(); i++) {
+                    cliente = retornaCliente(context, cursor.getLong(cursor.getColumnIndex("codcliente")));
+                    clientes.add(cliente);
+                    cursor.moveToNext();
+                }
+            }
+        }
+
+
+        return clientes;
+    }
+
+    public Long retornaMaiorCod(Context context) {
+        Banco myDb = new Banco(context);
+        SQLiteDatabase db = myDb.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT  rowid _id,  max(codcliente) from cliente", null);
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            return cursor.getLong(1);
+        } else {
+            return 0L;
+        }
+    }
+
+    public Cursor retornaClienteAlteradaAndroid(Context context, String tipo) {
+        Banco myDb = new Banco(context);
+        SQLiteDatabase db = myDb.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM cliente where " + tipo + " = 1", null);
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+        }
+        db.close();
+        return cursor;
+    }
+
+    public void alteraPedidoCliente(Context context, Long codigoAndroid, Long codigoServidor) {
+        Banco myDb = new Banco(context);
+        SQLiteDatabase db = myDb.getReadableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("codcliente", codigoServidor);
+        int retorno = db.update("pedido", values, "codcliente = " + codigoAndroid, null);
+        values.clear();
+    }
+
+    public void alteraCodCliente(Context context, Long codigoAndroid, Long codigoServidor) {
+        Banco myDb = new Banco(context);
+        SQLiteDatabase db = myDb.getReadableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("codigo", codigoServidor);
+        int retorno = db.update("cliente", values, "codigo = " + codigoAndroid, null);
+
+    }
+
+    public void removeClienteAlteradaAndroid(Context context, String campo) {
+        Banco myDb = new Banco(context);
+        SQLiteDatabase db = myDb.getReadableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(campo, "0");
+        int retorno = db.update("cliente", values, campo + " = 1", null);
+
+    }
+
+    public Boolean cadastraCliente(Context context, Cliente cliente) {
+        Banco myDb = new Banco(context);
+        DadosBanco dadosBanco = new DadosBanco();
+        ContentValues valores = new ContentValues();
+        SQLiteDatabase db = myDb.getWritableDatabase();
+        List<Field> fieldList = new ArrayList<>(Arrays.asList(cliente.getClass().getDeclaredFields()));
+        for (int i = 0; fieldList.size() != i; i++) {
+            valores = dadosBanco.insereValoresContent(fieldList.get(i), cliente, valores);
+        }
+        if (valores.get("codcliente") == null) {
+            long retorno = retornaMaiorCod(context);
+            retorno = retorno + 1;
+            valores.remove("codcliente");
+            valores.remove("cadastroandroid");
+            valores.put("codcliente", retorno);
+            valores.put("cadastroandroid", true);
+            retorno = db.insert("cliente", null, valores);
+            db.close();
+            valores.clear();
+            return retorno != -1;
+        } else {
+            Cliente clienteret = cliente.retornaCliente(context, Long.parseLong(valores.get("codcliente").toString()));
+
+            if (!clienteret.toString().equals(cliente.toString())) {
+                if (clienteret.equals(new Cliente())) {
+                    long retorno = retornaMaiorCod(context);
+                    retorno = retorno + 1;
+                    valores.remove("cadastroandroid");
+                    retorno = db.insert("cliente", null, valores);
+                    db.close();
+                    valores.clear();
+                    return retorno != -1;
+                } else {
+                    valores.remove("alteradoandroid");
+                    valores.put("alteradoandroid", true);
+                    long retorno = db.update("cliente", valores, "codcliente= " + valores.get("codcliente").toString(), null);
+                    db.close();
+                    valores.clear();
+                    return retorno != -1;
+                }
+            }
+            return true;
+        }
+    }
+
+    public Long retornaNumeroDeClientes(Context context) {
+        Banco myDb = new Banco(context);
+        SQLiteDatabase db = myDb.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT count(*) FROM cliente", null);
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            return cursor.getLong(0);
+        } else {
+            return 0L;
+        }
+    }
 }

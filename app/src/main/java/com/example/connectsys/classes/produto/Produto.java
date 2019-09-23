@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class Produto {
 
@@ -1105,6 +1106,139 @@ public class Produto {
 
     public void setCodnaturezarevenda(Long codnaturezarevenda) {
         this.codnaturezarevenda = codnaturezarevenda;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Produto)) return false;
+        Produto produto = (Produto) o;
+        return Objects.equals(getCodproduto(), produto.getCodproduto()) &&
+                Objects.equals(getNumerointerno(), produto.getNumerointerno()) &&
+                Objects.equals(getNumerofabricante(), produto.getNumerofabricante()) &&
+                Objects.equals(getNumeroean(), produto.getNumeroean()) &&
+                Objects.equals(getCodlocalizacao(), produto.getCodlocalizacao()) &&
+                Objects.equals(getCodgrupo(), produto.getCodgrupo()) &&
+                Objects.equals(getCodsubgrupo(), produto.getCodsubgrupo()) &&
+                Objects.equals(getCodfornecedorpadrao(), produto.getCodfornecedorpadrao()) &&
+                Objects.equals(getCodicmscupom(), produto.getCodicmscupom()) &&
+                Objects.equals(getCodicmsnotafiscal(), produto.getCodicmsnotafiscal()) &&
+                Objects.equals(getCodmarca(), produto.getCodmarca()) &&
+                Objects.equals(getCodcomposicao(), produto.getCodcomposicao()) &&
+                Objects.equals(getDescricao(), produto.getDescricao()) &&
+                Objects.equals(getDatacadastro(), produto.getDatacadastro()) &&
+                Objects.equals(getDatavenda(), produto.getDatavenda()) &&
+                Objects.equals(getDatacompra(), produto.getDatacompra()) &&
+                Objects.equals(getDataalteracao(), produto.getDataalteracao()) &&
+                Objects.equals(getAplicacao(), produto.getAplicacao()) &&
+                Objects.equals(getCodunidade(), produto.getCodunidade()) &&
+                Objects.equals(getCustoletra(), produto.getCustoletra()) &&
+                Objects.equals(getValorcompra(), produto.getValorcompra()) &&
+                Objects.equals(getValorcusto(), produto.getValorcusto()) &&
+                Objects.equals(getCustocomercializacaopercentual(), produto.getCustocomercializacaopercentual()) &&
+                Objects.equals(getCustovenda(), produto.getCustovenda()) &&
+                Objects.equals(getQuantidadeestoque(), produto.getQuantidadeestoque()) &&
+                Objects.equals(getQuantidademinima(), produto.getQuantidademinima()) &&
+                Objects.equals(getQuantidademaxima(), produto.getQuantidademaxima()) &&
+                Objects.equals(getFretevalor(), produto.getFretevalor()) &&
+                Objects.equals(getFretepercentual(), produto.getFretepercentual()) &&
+                Objects.equals(getDarf(), produto.getDarf()) &&
+                Objects.equals(getIcms(), produto.getIcms()) &&
+                Objects.equals(getIpi(), produto.getIpi()) &&
+                Objects.equals(getPercentualavista(), produto.getPercentualavista()) &&
+                Objects.equals(getPercentualaprazo(), produto.getPercentualaprazo()) &&
+                Objects.equals(getValoravista(), produto.getValoravista()) &&
+                Objects.equals(getValoraprazo(), produto.getValoraprazo()) &&
+                Objects.equals(getValortotal(), produto.getValortotal()) &&
+                Objects.equals(getNcm(), produto.getNcm()) &&
+                Objects.equals(getClassificacaofiscal(), produto.getClassificacaofiscal()) &&
+                Objects.equals(getSituacaotributaria(), produto.getSituacaotributaria()) &&
+                Objects.equals(getPerccomissao(), produto.getPerccomissao()) &&
+                Objects.equals(getInativo(), produto.getInativo()) &&
+                Objects.equals(getNaocomprar(), produto.getNaocomprar()) &&
+                Objects.equals(getPesoliquidounitarioipi(), produto.getPesoliquidounitarioipi()) &&
+                Objects.equals(getPesoliquidototalipi(), produto.getPesoliquidototalipi()) &&
+                Objects.equals(getPesobrutototal(), produto.getPesobrutototal()) &&
+                Objects.equals(getPesoliquidototal(), produto.getPesoliquidototal()) &&
+                Objects.equals(getIpivenda(), produto.getIpivenda()) &&
+                Objects.equals(getIpikg(), produto.getIpikg()) &&
+                Objects.equals(getImagem(), produto.getImagem()) &&
+                Objects.equals(getTipoproduto(), produto.getTipoproduto()) &&
+                Objects.equals(getObservacao(), produto.getObservacao()) &&
+                Objects.equals(getMvainterno(), produto.getMvainterno()) &&
+                Objects.equals(getMvaexterno(), produto.getMvaexterno()) &&
+                Objects.equals(getCodprodutosimilar(), produto.getCodprodutosimilar()) &&
+                Objects.equals(getNumerointernosimilar(), produto.getNumerointernosimilar()) &&
+                Objects.equals(getIssqncodlistaservico(), produto.getIssqncodlistaservico()) &&
+                Objects.equals(getIssqnsituacaotributaria(), produto.getIssqnsituacaotributaria()) &&
+                Objects.equals(getSituacaotributariasaida(), produto.getSituacaotributariasaida()) &&
+                Objects.equals(getCsosn(), produto.getCsosn()) &&
+                Objects.equals(getCodipientrada(), produto.getCodipientrada()) &&
+                Objects.equals(getCodipisaida(), produto.getCodipisaida()) &&
+                Objects.equals(getCodpis(), produto.getCodpis()) &&
+                Objects.equals(getPercpis(), produto.getPercpis()) &&
+                Objects.equals(getValorpisunitario(), produto.getValorpisunitario()) &&
+                Objects.equals(getCodcofins(), produto.getCodcofins()) &&
+                Objects.equals(getPerccofins(), produto.getPerccofins()) &&
+                Objects.equals(getValorcofinsunitario(), produto.getValorcofinsunitario()) &&
+                Objects.equals(getCodpisentrada(), produto.getCodpisentrada()) &&
+                Objects.equals(getCodcofinsentrada(), produto.getCodcofinsentrada()) &&
+                Objects.equals(getPercsubstituicao(), produto.getPercsubstituicao()) &&
+                Objects.equals(getCodexcecaoipi(), produto.getCodexcecaoipi()) &&
+                Objects.equals(getClasseipi(), produto.getClasseipi()) &&
+                Objects.equals(getCnpjipi(), produto.getCnpjipi()) &&
+                Objects.equals(getCodseloipi(), produto.getCodseloipi()) &&
+                Objects.equals(getQuantidadeseloipi(), produto.getQuantidadeseloipi()) &&
+                Objects.equals(getCodenquandramentoipi(), produto.getCodenquandramentoipi()) &&
+                Objects.equals(getInformacaoadicional(), produto.getInformacaoadicional()) &&
+                Objects.equals(getEmpromocao(), produto.getEmpromocao()) &&
+                Objects.equals(getPercdescontopromocao(), produto.getPercdescontopromocao()) &&
+                Objects.equals(getValordevendapromocao(), produto.getValordevendapromocao()) &&
+                Objects.equals(getValorcofinsunitarioentrada(), produto.getValorcofinsunitarioentrada()) &&
+                Objects.equals(getPerccofinsentrada(), produto.getPerccofinsentrada()) &&
+                Objects.equals(getPercpisentrada(), produto.getPercpisentrada()) &&
+                Objects.equals(getValorpisunitarioentrada(), produto.getValorpisunitarioentrada()) &&
+                Objects.equals(getPercipientrada(), produto.getPercipientrada()) &&
+                Objects.equals(getValoripiunitarioentrada(), produto.getValoripiunitarioentrada()) &&
+                Objects.equals(getCodtipo(), produto.getCodtipo()) &&
+                Objects.equals(getLocaliza(), produto.getLocaliza()) &&
+                Objects.equals(getPercdescontoformulacao(), produto.getPercdescontoformulacao()) &&
+                Objects.equals(getCodnaturezapadrao(), produto.getCodnaturezapadrao()) &&
+                Objects.equals(getCodempresa(), produto.getCodempresa()) &&
+                Objects.equals(getIcmsvelho(), produto.getIcmsvelho()) &&
+                Objects.equals(getDatavalidade(), produto.getDatavalidade()) &&
+                Objects.equals(getCest(), produto.getCest()) &&
+                Objects.equals(getOrigem(), produto.getOrigem()) &&
+                Objects.equals(getOrigemgarden(), produto.getOrigemgarden()) &&
+                Objects.equals(getCategoria(), produto.getCategoria()) &&
+                Objects.equals(getCientifico(), produto.getCientifico()) &&
+                Objects.equals(getAplicacaogarden(), produto.getAplicacaogarden()) &&
+                Objects.equals(getCultivo(), produto.getCultivo()) &&
+                Objects.equals(getProdutocomposto(), produto.getProdutocomposto()) &&
+                Objects.equals(getTotalcomposicao(), produto.getTotalcomposicao()) &&
+                Objects.equals(getValorunitariosubstituicao(), produto.getValorunitariosubstituicao()) &&
+                Objects.equals(getCodnotaentradacadastro(), produto.getCodnotaentradacadastro()) &&
+                Objects.equals(getValordespesas(), produto.getValordespesas()) &&
+                Objects.equals(getChassi(), produto.getChassi()) &&
+                Objects.equals(getCodunidadetributavel(), produto.getCodunidadetributavel()) &&
+                Objects.equals(getFatortributavel(), produto.getFatortributavel()) &&
+                Objects.equals(getCstconsumidorfinal(), produto.getCstconsumidorfinal()) &&
+                Objects.equals(getCsosnconsumidorfinal(), produto.getCsosnconsumidorfinal()) &&
+                Objects.equals(getExigibilidadeiss(), produto.getExigibilidadeiss()) &&
+                Objects.equals(getEfet_baseicmsstretido(), produto.getEfet_baseicmsstretido()) &&
+                Objects.equals(getEfet_aliquotasuportada(), produto.getEfet_aliquotasuportada()) &&
+                Objects.equals(getEfet_valoricmsstretido(), produto.getEfet_valoricmsstretido()) &&
+                Objects.equals(getEfet_basefcpstretido(), produto.getEfet_basefcpstretido()) &&
+                Objects.equals(getEfet_aliquotafcpretido(), produto.getEfet_aliquotafcpretido()) &&
+                Objects.equals(getEfet_valorfcpstretido(), produto.getEfet_valorfcpstretido()) &&
+                Objects.equals(getInformacaoadicionalexterna(), produto.getInformacaoadicionalexterna()) &&
+                Objects.equals(getCestao(), produto.getCestao()) &&
+                Objects.equals(getCodnaturezarevenda(), produto.getCodnaturezarevenda());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getCodproduto(), getNumerointerno(), getNumerofabricante(), getNumeroean(), getCodlocalizacao(), getCodgrupo(), getCodsubgrupo(), getCodfornecedorpadrao(), getCodicmscupom(), getCodicmsnotafiscal(), getCodmarca(), getCodcomposicao(), getDescricao(), getDatacadastro(), getDatavenda(), getDatacompra(), getDataalteracao(), getAplicacao(), getCodunidade(), getCustoletra(), getValorcompra(), getValorcusto(), getCustocomercializacaopercentual(), getCustovenda(), getQuantidadeestoque(), getQuantidademinima(), getQuantidademaxima(), getFretevalor(), getFretepercentual(), getDarf(), getIcms(), getIpi(), getPercentualavista(), getPercentualaprazo(), getValoravista(), getValoraprazo(), getValortotal(), getNcm(), getClassificacaofiscal(), getSituacaotributaria(), getPerccomissao(), getInativo(), getNaocomprar(), getPesoliquidounitarioipi(), getPesoliquidototalipi(), getPesobrutototal(), getPesoliquidototal(), getIpivenda(), getIpikg(), getImagem(), getTipoproduto(), getObservacao(), getMvainterno(), getMvaexterno(), getCodprodutosimilar(), getNumerointernosimilar(), getIssqncodlistaservico(), getIssqnsituacaotributaria(), getSituacaotributariasaida(), getCsosn(), getCodipientrada(), getCodipisaida(), getCodpis(), getPercpis(), getValorpisunitario(), getCodcofins(), getPerccofins(), getValorcofinsunitario(), getCodpisentrada(), getCodcofinsentrada(), getPercsubstituicao(), getCodexcecaoipi(), getClasseipi(), getCnpjipi(), getCodseloipi(), getQuantidadeseloipi(), getCodenquandramentoipi(), getInformacaoadicional(), getEmpromocao(), getPercdescontopromocao(), getValordevendapromocao(), getValorcofinsunitarioentrada(), getPerccofinsentrada(), getPercpisentrada(), getValorpisunitarioentrada(), getPercipientrada(), getValoripiunitarioentrada(), getCodtipo(), getLocaliza(), getPercdescontoformulacao(), getCodnaturezapadrao(), getCodempresa(), getIcmsvelho(), getDatavalidade(), getCest(), getOrigem(), getOrigemgarden(), getCategoria(), getCientifico(), getAplicacaogarden(), getCultivo(), getProdutocomposto(), getTotalcomposicao(), getValorunitariosubstituicao(), getCodnotaentradacadastro(), getValordespesas(), getChassi(), getCodunidadetributavel(), getFatortributavel(), getCstconsumidorfinal(), getCsosnconsumidorfinal(), getExigibilidadeiss(), getEfet_baseicmsstretido(), getEfet_aliquotasuportada(), getEfet_valoricmsstretido(), getEfet_basefcpstretido(), getEfet_aliquotafcpretido(), getEfet_valorfcpstretido(), getInformacaoadicionalexterna(), getCestao(), getCodnaturezarevenda());
     }
 
     //FUNÇÕES DA CLASSE PRODUTO

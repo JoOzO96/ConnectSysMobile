@@ -15,7 +15,10 @@ public class Sincroniza {
 
 
         SincMac sincMac = new SincMac();
+        SincCidade sincCidade = new SincCidade();
         SincProduto sincProduto = new SincProduto();
+        SincCliente sincCliente = new SincCliente();
+        SincClienteEndereco sincClienteEndereco = new SincClienteEndereco();
         String ip = null;
         Sessao.iniciaProgress();
         Sessao.colocaTexto("Verificando dados do IP.");
@@ -26,7 +29,10 @@ public class Sincroniza {
             MostraToast mostraToast = new MostraToast();
             mostraToast.mostraToastLong(context, "ERRO AO OBTER O IP");
         } else {
+            sincCidade.iniciaAsinc(context, ip);
             sincProduto.iniciaASinc(context, ip);
+            sincCliente.iniciaAsinc(context, ip);
+            sincClienteEndereco.iniciaAsinc(context, ip);
             Sessao.terminaProgress();
         }
     }

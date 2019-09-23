@@ -62,47 +62,35 @@ public class RetRetrofit {
         return retrofit;
     }
 
-//    public String retornaSring(String tipo, String ip) {
-//        String url = "";
-//        if (ip.equals("") || ip == null) {
-//            if (tipo.equals("cidade")) {
-//                url = "http://" + ip + "/api/cidade";
-////                url = "http://192.168.0.199:8080/ConnectServices/recebeCidade";
-//            } else if (tipo.equals("cliente")) {
-//                url = "http://" + ip + "/api/Cliente";
-////                url = "http://192.168.0.199:8080/ConnectServices/recebeCliente";
-//            } else if (tipo.equals("parcelas")) {
-//                url = "http://" + ip + "/api/parcelas";
-////                url = "http://192.168.0.199:8080/ConnectServices/recebePedido";
-//            } else if (tipo.equals("pedido")) {
-//                url = "http://" + ip + "/api/Pedido";
-////                url = "http://192.168.0.199:8080/ConnectServices/recebePedido";
-//            } else if (tipo.equals("pedidoproduto")) {
-//                url = "http://" + ip + "/api/PedidoProduto";
-////                url = "http://192.168.0.199:8080/ConnectServices/recebePedido";
-//            }
-//        } else {
-//            if (tipo.equals("cidade")) {
-//                url = "http://" + ip + "/api/Cidade";
-////                url = "http://" + ip + ":8080/ConnectServices/recebeCidade";
-//            } else if (tipo.equals("parcelas")) {
-//                url = "http://" + ip + "/api/parcelas";
-////                url = "http://192.168.0.199:8080/ConnectServices/recebePedido";
-//            } else if (tipo.equals("cliente")) {
-//                url = "http://" + ip + "/api/Cliente";
-////                url = "http://" + ip + ":8080/ConnectServices/recebeCliente";
-//            } else if (tipo.equals("pedido")) {
-//                url = "http://" + ip + "/api/Pedido";
-////                url = "http://" + ip + ":8080/ConnectServices/recebePedido";
-//            } else if (tipo.equals("pedidoproduto")) {
-//                url = "http://" + ip + "/api/PedidoProduto";
-////                url = "http://" + ip + ":8080/ConnectServices/recebePedido";
-//            }
-//        }
-//
-//
-//        return url;
-//    }
+    public String retornaSring(String tipo, String ip) {
+        String url = "";
+        if (ip.equals("") || ip == null) {
+            if (tipo.equals("cidade")) {
+                url = "http://" + ip + "/api/cidade";
+            } else if (tipo.equals("cliente")) {
+                url = "http://" + ip + "/api/Cliente";
+            } else if (tipo.equals("parcelas")) {
+                url = "http://" + ip + "/api/parcelas";
+            } else if (tipo.equals("pedido")) {
+                url = "http://" + ip + "/api/Pedido";
+            } else if (tipo.equals("pedidoproduto")) {
+                url = "http://" + ip + "/api/PedidoProduto";
+            }
+        } else {
+            if (tipo.equals("cidade")) {
+                url = "http://" + ip + "/api/Cidade";
+            } else if (tipo.equals("parcelas")) {
+                url = "http://" + ip + "/api/parcelas";
+            } else if (tipo.equals("cliente")) {
+                url = "http://" + ip + "/api/Cliente";
+            } else if (tipo.equals("pedido")) {
+                url = "http://" + ip + "/api/Pedido";
+            } else if (tipo.equals("pedidoproduto")) {
+                url = "http://" + ip + "/api/PedidoProduto";
+            }
+        }
+        return url;
+    }
 
 
 }
