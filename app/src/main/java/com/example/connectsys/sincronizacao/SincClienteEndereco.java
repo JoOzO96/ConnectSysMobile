@@ -52,7 +52,6 @@ public class SincClienteEndereco extends Activity {
                     Sessao.colocaTexto("Cadastro de endereços dos clientes. " + (finalCli + 1) + " de " + requestClienteEndereco.size());
                 }
             });
-
             boolean status = clienteEndereco.cadastraClienteEndereco(
                     context, requestClienteEndereco.get(cli)
             );

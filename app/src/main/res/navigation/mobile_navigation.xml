@@ -14,44 +14,65 @@
     <fragment
         android:id="@+id/nav_produto"
         android:name="com.example.connectsys.ui.produto.ProdutoFragment"
-        android:label="@string/menu_home"
+        android:label="@string/menu_produto"
         tools:layout="@layout/produto_fragment" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.example.connectsys.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        android:id="@+id/nav_pedido"
+        android:name="com.example.connectsys.ui.pedido.PedidoFragment"
+        android:label="@string/menu_pedido"
+        tools:layout="@layout/fragment_pedido">
+        <action
+            android:id="@+id/action_nav_pedido_to_nav_pedido_dados"
+            app:destination="@id/nav_pedido_dados" />
+    </fragment>
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.example.connectsys.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
-
-    <fragment
-        android:id="@+id/nav_tools"
-        android:name="com.example.connectsys.ui.tools.ToolsFragment"
-        android:label="@string/menu_tools"
-        tools:layout="@layout/fragment_tools" />
-
-    <fragment
-        android:id="@+id/nav_share"
-        android:name="com.example.connectsys.ui.share.ShareFragment"
-        android:label="@string/menu_share"
-        tools:layout="@layout/fragment_share" />
-
-    <fragment
-        android:id="@+id/nav_send"
-        android:name="com.example.connectsys.ui.send.SendFragment"
-        android:label="@string/menu_send"
-        tools:layout="@layout/fragment_send" />
+        android:id="@+id/nav_pedido_dados"
+        android:name="com.example.connectsys.ui.pedido.PedidoDados"
+        android:label="@string/menu_pedido"
+        tools:layout="@layout/fragment_pedido_dados">
+        <action
+            android:id="@+id/action_nav_pedido_dados_pop"
+            app:popUpTo="@+id/nav_pedido"
+            app:popUpToInclusive="true" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_cliente"
         android:name="com.example.connectsys.ui.cliente.ClienteFragment"
         android:label="@string/menu_cliente"
-        tools:layout="@layout/fragment_cliente" />
+        tools:layout="@layout/fragment_cliente">
+        <action
+            android:id="@+id/action_nav_cliente_to_nav_cliente_dados"
+            app:destination="@id/nav_cliente_dados" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_cliente_dados"
+        android:name="com.example.connectsys.ui.cliente.ClienteDados"
+        android:label="@string/menu_cliente_dados"
+        tools:layout="@layout/fragment_cliente_dados">
+        <action
+            android:id="@+id/action_nav_cliente_dados_to_nav_cliente_endereco_dados"
+            app:destination="@id/nav_cliente_endereco_dados" />
+        <action
+            android:id="@+id/action_nav_cliente_dados_pop"
+            app:popUpTo="@+id/nav_cliente_dados"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_cliente_endereco_dados"
+        android:name="com.example.connectsys.ui.cliente.ClienteEnderecoDados"
+        android:label="@string/menu_cliente_endereco_dados"
+        tools:layout="@layout/fragment_cliente_endereco_dados">
+        <action
+            android:id="@+id/action_nav_cliente_endereco_dados_pop"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/nav_cliente_endereco_dados"
+            app:popUpToInclusive="true" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_sincroniza"

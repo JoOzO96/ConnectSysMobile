@@ -13,6 +13,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class ClienteEndereco {
 
@@ -143,18 +144,49 @@ public class ClienteEndereco {
         this.inscricaoestadual = inscricaoestadual;
     }
 
-    public Cliente retornaClienteEndereco(Context context, Long codCliente) {
+    @Override
+    public String toString() {
+        return codendereco + " - " + endereco + " - " + numero;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ClienteEndereco)) return false;
+        ClienteEndereco that = (ClienteEndereco) o;
+        return Objects.equals(getCodendereco(), that.getCodendereco()) &&
+                Objects.equals(getCodcliente(), that.getCodcliente()) &&
+                Objects.equals(getCodcidade(), that.getCodcidade()) &&
+                Objects.equals(getEndereco(), that.getEndereco()) &&
+                Objects.equals(getNumero(), that.getNumero()) &&
+                Objects.equals(getComplemento(), that.getComplemento()) &&
+                Objects.equals(getCodbairro(), that.getCodbairro()) &&
+                Objects.equals(getCep(), that.getCep()) &&
+                Objects.equals(getFone(), that.getFone()) &&
+                Objects.equals(getFonefax(), that.getFonefax()) &&
+                Objects.equals(getFonecelular(), that.getFonecelular()) &&
+                Objects.equals(getTipo(), that.getTipo()) &&
+                Objects.equals(getObs(), that.getObs()) &&
+                Objects.equals(getInscricaoestadual(), that.getInscricaoestadual());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getCodendereco(), getCodcliente(), getCodcidade(), getEndereco(), getNumero(), getComplemento(), getCodbairro(), getCep(), getFone(), getFonefax(), getFonecelular(), getTipo(), getObs(), getInscricaoestadual());
+    }
+
+    public ClienteEndereco retornaClienteEndereco(Context context, Long codCliente) {
         Banco myDb = new Banco(context);
-        Cliente cliente = new Cliente();
+        ClienteEndereco clienteEndereco = new ClienteEndereco();
         GetSetDinamico getSetDinamico = new GetSetDinamico();
         SQLiteDatabase db = myDb.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT rowid _id,* FROM clienteendereco where codcliente = " + codCliente, null);
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
         }
-        List<Field> fieldListCliente = new ArrayList<>(Arrays.asList(Cliente.class.getDeclaredFields()));
+        List<Field> fieldListCliente = new ArrayList<>(Arrays.asList(ClienteEndereco.class.getDeclaredFields()));
         for (int j = 0; cursor.getCount() != j; j++) {
-            Cliente cliente1 = new Cliente();
+            ClienteEndereco clienteEndereco1 = new ClienteEndereco();
 
             for (int f = 0; fieldListCliente.size() != f; f++) {
 
@@ -162,39 +194,69 @@ public class ClienteEndereco {
                 String nomeCampo = fieldListCliente.get(f).getName().toLowerCase();
                 Object retorno = getSetDinamico.retornaValorCursor(tipo, nomeCampo, cursor);
                 if (retorno != null) {
-                    Object retCliente = getSetDinamico.insereField(fieldListCliente.get(f), cliente1, retorno);
-                    cliente1 = (Cliente) retCliente;
+                    Object retCliente = getSetDinamico.insereField(fieldListCliente.get(f), clienteEndereco1, retorno);
+                    clienteEndereco1 = (ClienteEndereco) retCliente;
                 }
             }
-            cliente = cliente1;
+            clienteEndereco = clienteEndereco1;
         }
         db.close();
-        return cliente;
+        return clienteEndereco;
     }
 
-    public List<Cliente> retornaListaClienteEndereco(Context context, Long codcliente) {
+    public ClienteEndereco retornaEndereco(Context context, Long codendereco) {
         Banco myDb = new Banco(context);
-        List<Cliente> clientes = new ArrayList<>();
-        Cliente cliente = new Cliente();
+        ClienteEndereco clienteEndereco = new ClienteEndereco();
         GetSetDinamico getSetDinamico = new GetSetDinamico();
         SQLiteDatabase db = myDb.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM clienteendereco", null);
+        Cursor cursor = db.rawQuery("SELECT rowid _id,* FROM clienteendereco where codendereco = " + codendereco, null);
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+        }
+        List<Field> fieldListCliente = new ArrayList<>(Arrays.asList(ClienteEndereco.class.getDeclaredFields()));
+        for (int j = 0; cursor.getCount() != j; j++) {
+            ClienteEndereco clienteEndereco1 = new ClienteEndereco();
+
+            for (int f = 0; fieldListCliente.size() != f; f++) {
+
+                String tipo = getSetDinamico.retornaTipoCampo(fieldListCliente.get(f));
+                String nomeCampo = fieldListCliente.get(f).getName().toLowerCase();
+                Object retorno = getSetDinamico.retornaValorCursor(tipo, nomeCampo, cursor);
+                if (retorno != null) {
+                    Object retCliente = getSetDinamico.insereField(fieldListCliente.get(f), clienteEndereco1, retorno);
+                    clienteEndereco1 = (ClienteEndereco) retCliente;
+                }
+            }
+            clienteEndereco = clienteEndereco1;
+        }
+        db.close();
+        return clienteEndereco;
+    }
+
+    public List<ClienteEndereco> retornaListaClienteEndereco(Context context, Long codcliente) {
+        Banco myDb = new Banco(context);
+        List<ClienteEndereco> clienteEnderecos = new ArrayList<>();
+        ClienteEndereco clienteEndereco = new ClienteEndereco();
+        GetSetDinamico getSetDinamico = new GetSetDinamico();
+        SQLiteDatabase db = myDb.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM clienteendereco where codcliente = " + codcliente, null);
 
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
             for (int i = 0; i < cursor.getCount(); i++) {
-                cliente = retornaClienteEndereco(context, cursor.getLong(cursor.getColumnIndex("codcliente")));
-                clientes.add(cliente);
+                clienteEndereco = new ClienteEndereco();
+                clienteEndereco = retornaEndereco(context, cursor.getLong(cursor.getColumnIndex("codendereco")));
+                clienteEnderecos.add(clienteEndereco);
                 cursor.moveToNext();
             }
         }
-        return clientes;
+        return clienteEnderecos;
     }
 
     public Long retornaMaiorCod(Context context) {
         Banco myDb = new Banco(context);
         SQLiteDatabase db = myDb.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT  rowid _id,  max(codcliente) from clienteendereco", null);
+        Cursor cursor = db.rawQuery("SELECT  rowid _id,  max(codendereco) from clienteendereco", null);
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
             return cursor.getLong(1);
@@ -248,28 +310,29 @@ public class ClienteEndereco {
             valores.remove("cadastroandroid");
             valores.put("codendereco", retorno);
             valores.put("cadastroandroid", true);
-            retorno = db.insert("cliente", null, valores);
+            retorno = db.insert("clienteendereco", null, valores);
             db.close();
             valores.clear();
             return retorno != -1;
         } else {
-            Cliente clienteret = clienteEndereco.retornaClienteEndereco(context, Long.parseLong(valores.get("codendereco").toString()));
-
-            if (clienteret.equals(clienteEndereco)) {
-                valores.remove("alteradoandroid");
-                valores.put("alteradoandroid", true);
-                long retorno = db.update("clienteendereco", valores, "codendereco= " + valores.get("codendereco").toString(), null);
+            ClienteEndereco clienteret = clienteEndereco.retornaEndereco(context, Long.parseLong(valores.get("codendereco").toString()));
+            if (clienteret.equals(new ClienteEndereco())) {
+                valores.remove("cadastroandroid");
+                long retorno = db.insert("clienteendereco", null, valores);
                 db.close();
                 valores.clear();
                 return retorno != -1;
             } else {
-                long retorno = retornaMaiorCod(context);
-                retorno = retorno + 1;
-                valores.remove("cadastroandroid");
-                retorno = db.insert("clienteendereco", null, valores);
-                db.close();
-                valores.clear();
-                return retorno != -1;
+                if (!clienteret.equals(clienteEndereco)) {
+                    valores.remove("alteradoandroid");
+                    valores.put("alteradoandroid", true);
+                    long retorno = db.update("clienteendereco", valores, "codendereco= " + valores.get("codendereco").toString(), null);
+                    db.close();
+                    valores.clear();
+                    return retorno != -1;
+                } else {
+                    return Boolean.TRUE;
+                }
             }
         }
     }

@@ -79,6 +79,15 @@ public class Cliente {
     String cep;
     String tipoie;
     Boolean consumidorfinal;
+    Boolean cadastroandroid;
+
+    public Boolean getCadastroandroid() {
+        return cadastroandroid;
+    }
+
+    public void setCadastroandroid(Boolean cadastroandroid) {
+        this.cadastroandroid = cadastroandroid;
+    }
 
     public Long getCodcliente() {
         return codcliente;
@@ -720,6 +729,7 @@ public class Cliente {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int i = 0; i < cursor.getCount(); i++) {
+                    cliente = new Cliente();
                     cliente = retornaClienteSimplificado(context, cursor.getLong(cursor.getColumnIndex("codcliente")));
                     clientes.add(cliente);
                     cursor.moveToNext();
@@ -729,6 +739,7 @@ public class Cliente {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int i = 0; i < cursor.getCount(); i++) {
+                    cliente = new Cliente();
                     cliente = retornaCliente(context, cursor.getLong(cursor.getColumnIndex("codcliente")));
                     clientes.add(cliente);
                     cursor.moveToNext();
@@ -813,7 +824,7 @@ public class Cliente {
         } else {
             Cliente clienteret = cliente.retornaCliente(context, Long.parseLong(valores.get("codcliente").toString()));
 
-            if (!clienteret.toString().equals(cliente.toString())) {
+            if (!clienteret.equals(cliente)) {
                 if (clienteret.equals(new Cliente())) {
                     long retorno = retornaMaiorCod(context);
                     retorno = retorno + 1;

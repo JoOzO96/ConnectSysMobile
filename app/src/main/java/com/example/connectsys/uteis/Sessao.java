@@ -3,6 +3,7 @@ package com.example.connectsys.uteis;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -26,8 +27,26 @@ public class Sessao {
     private static Sessao instance;
     private static Context contextSalvo;
     private static ProgressDialog progressDialog;
+    private static Bundle bundleSalvo;
+    private static View viewSalva;
 
     private Sessao() {
+    }
+
+    public static void salvaView(View view) {
+        viewSalva = view;
+    }
+
+    public static View retornaView() {
+        return viewSalva;
+    }
+
+    public static void setBundle(Bundle bundle) {
+        bundleSalvo = bundle;
+    }
+
+    public static Bundle retornaBundle() {
+        return bundleSalvo;
     }
 
     public static List<Cliente> retornaClientes() {
@@ -153,6 +172,20 @@ public class Sessao {
                 progressBar.setVisibility(View.VISIBLE);
             }
         });
+    }
+
+    public static void atualizaListaCliente(Cliente cliente) {
+        boolean encontrou = false;
+        for (int i = 0; listCliente.size() > i; i++) {
+            if (listCliente.get(i).getCodcliente().equals(cliente.getCodcliente())) {
+                listCliente.set(i, cliente);
+                encontrou = true;
+                break;
+            }
+        }
+        if (!encontrou) {
+            listCliente.add(cliente);
+        }
     }
 
     public ProgressDialog getProgressDialog() {

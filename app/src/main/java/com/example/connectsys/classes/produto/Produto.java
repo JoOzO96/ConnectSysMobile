@@ -1277,7 +1277,6 @@ public class Produto {
                 if (cursor.getCount() == 0) {
                     Long retorno = 0L;
                     valores.remove("cadastroandroid");
-                    valores.put("cadastroandroid", true);
                     retorno = db.insert("produto", null, valores);
                     db.close();
                     valores.clear();
@@ -1285,7 +1284,6 @@ public class Produto {
                 } else {
 
                     valores.remove("alteradoandroid");
-                    valores.put("alteradoandroid", true);
                     long retorno = db.update("produto", valores, "codproduto= " + valores.get("codproduto").toString(), null);
                     db.close();
                     valores.clear();

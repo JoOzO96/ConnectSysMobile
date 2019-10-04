@@ -3,6 +3,7 @@ package com.example.connectsys.uteis;
 import android.content.Context;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 
@@ -38,6 +39,29 @@ public class GetSetDinamicoTelas extends Fragment {
                             objeto.addTextChangedListener(Mascara.insert(mascara, objeto));
                         }
                         objeto.setText(valor.toString());
+                    }
+                }
+            }
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void colocaValorCheckBox(Field field, View view, List<Field> fieldList, Object valor) {
+        try {
+
+            if (valor != null) {
+                Class res = R.id.class;
+                CheckBox objeto = null;
+                for (int i = 0; fieldList.size() != i; i++) {
+
+                    if (fieldList.get(i).getName().equals(field.getName())) {
+                        Field field1 = res.getField(field.getName());
+                        int idField = field1.getInt(null);
+                        objeto = view.findViewById(idField);
+                        objeto.setChecked(Boolean.parseBoolean(valor.toString()));
                     }
                 }
             }
@@ -185,6 +209,19 @@ public class GetSetDinamicoTelas extends Fragment {
 
 
         return "";
+    }
+
+    public Boolean retornaValorCheckBox(View view, String nomeCampo) {
+        String primeiro = nomeCampo.substring(0, 1);
+        primeiro = "ck" + primeiro.toUpperCase();
+        String nomeCampo1 = nomeCampo.substring(1);
+        primeiro += nomeCampo1;
+
+        CheckBox valorId = (CheckBox) retornaIDCampo(view, primeiro);
+        if (valorId != null) {
+            return valorId.isChecked();
+        }
+        return false;
     }
 
     public String retornaValorSpinner(View view, String nomeCampo) {
