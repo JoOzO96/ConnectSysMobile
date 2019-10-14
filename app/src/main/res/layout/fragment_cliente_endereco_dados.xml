@@ -74,27 +74,27 @@
                 android:inputType="textCapWords" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayout4"
+        <AutoCompleteTextView
+            android:id="@+id/auBairro"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_below="@+id/textInputLayout3"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
             android:hint="Bairro">
 
-            <EditText
-                android:id="@+id/txBairro"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textCapWords" />
-        </com.google.android.material.textfield.TextInputLayout>
+        </AutoCompleteTextView>
+
+        <AutoCompleteTextView
+            android:layout_width="match_parent"
+            android:id="@+id/auCodcidade"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/auBairro"
+            android:hint="Cidade"></AutoCompleteTextView>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayout5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/textInputLayout4"
+            android:layout_below="@+id/auCodcidade"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
             android:hint="CEP">

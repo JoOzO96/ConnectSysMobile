@@ -1,10 +1,12 @@
 package com.example.connectsys.classes.pedido;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.connectsys.banco.Banco;
+import com.example.connectsys.uteis.DadosBanco;
 import com.example.connectsys.uteis.GetSetDinamico;
 
 import java.lang.reflect.Field;
@@ -990,5 +992,50 @@ public class Pedido {
         } else {
             return 0L;
         }
+    }
+
+    public Boolean cadastraPedido(Context context, Pedido pedido) {
+        Banco myDb = new Banco(context);
+        DadosBanco dadosBanco = new DadosBanco();
+        ContentValues valores = new ContentValues();
+        SQLiteDatabase db = myDb.getWritableDatabase();
+        List<Field> fieldList = new ArrayList<>(Arrays.asList(pedido.getClass().getDeclaredFields()));
+
+        for (int i = 0; fieldList.size() != i; i++) {
+            valores = dadosBanco.insereValoresContent(fieldList.get(i), pedido, valores);
+        }
+
+        if (valores.get("codpedido") == null) {
+            long retorno = retornaMaiorCod(context);
+            retorno = retorno + 1;
+            valores.remove("cadastroandroid");
+            valores.put("codpedido", retorno);
+            valores.put("cadastroandroid", true);
+            retorno = db.insert("pedido", null, valores);
+            db.close();
+            valores.clear();
+            return retorno != -1;
+        } else {
+            valores.remove("alteradoandroid");
+            valores.put("alteradoandroid", true);
+            long retorno = db.update("pedido", valores, "codpedido= " + valores.get("codpedido").toString(), null);
+            db.close();
+            valores.clear();
+            return retorno != -1;
+        }
+    }
+
+    public boolean removerPedido(Context context, Long codpedido) {
+        Banco myDb = new Banco(context);
+        SQLiteDatabase db = myDb.getWritableDatabase();
+        int retorno = db.delete("pedido", "codpedido = " + codpedido, null);
+        return retorno > 0;
+    }
+
+    public boolean removerPedidoProduto(Context context, Long codpedido) {
+        Banco myDb = new Banco(context);
+        SQLiteDatabase db = myDb.getWritableDatabase();
+        int retorno = db.delete("pedidoproduto", "codpedido = " + codpedido, null);
+        return retorno > -1;
     }
 }

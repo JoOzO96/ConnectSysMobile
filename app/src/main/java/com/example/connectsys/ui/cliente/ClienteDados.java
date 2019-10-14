@@ -78,6 +78,7 @@ public class ClienteDados extends Fragment {
         ckEnviarxml = view.findViewById(R.id.ckEnviarxml);
         ckEnviarpdf = view.findViewById(R.id.ckEnviarpdf);
         listEnderecos = view.findViewById(R.id.listEnderecos);
+        Sessao.salvaView(view);
         btCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,6 +89,7 @@ public class ClienteDados extends Fragment {
             @Override
             public void onClick(View v) {
                 salvaCadastro(view);
+                Navigation.findNavController(view).navigate(R.id.action_nav_cliente_dados_pop);
             }
         });
         if (codigoCliente > 0) {
@@ -121,11 +123,12 @@ public class ClienteDados extends Fragment {
         btCadastroendereco.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                salvaCadastro(view);
                 Bundle bundle = new Bundle();
                 bundle.putLong("codcliente", cliente.getCodcliente());
                 bundle.putLong("codendereco", 0L);
                 Sessao.setBundle(bundle);
-                Navigation.findNavController(view).navigate(R.id.action_nav_cliente_dados_to_nav_cliente_endereco_dados);
+                Navigation.findNavController(Sessao.retornaView()).navigate(R.id.action_nav_cliente_dados_to_nav_cliente_endereco_dados);
             }
         });
 
@@ -137,7 +140,7 @@ public class ClienteDados extends Fragment {
                 bundle.putLong("codcliente", cliente.getCodcliente());
                 bundle.putLong("codendereco", clienteEndereco.getCodendereco());
                 Sessao.setBundle(bundle);
-                Navigation.findNavController(view).navigate(R.id.action_nav_cliente_dados_to_nav_cliente_endereco_dados);
+                Navigation.findNavController(Sessao.retornaView()).navigate(R.id.action_nav_cliente_dados_to_nav_cliente_endereco_dados);
             }
         });
 
@@ -173,9 +176,21 @@ public class ClienteDados extends Fragment {
             }
 
         }
-        cliente.cadastraCliente(getContext(), cliente);
+
+        if (!ckFisica.isChecked()) {
+            cliente.setFisicajuridica("Jurídica");
+            cliente.setCpf("");
+        } else {
+            cliente.setFisicajuridica("Física");
+            cliente.setCnpj("");
+        }
+
+        cliente.cadastraCliente(getContext(), cliente, false);
+        if (cliente.getCodcliente() == null) {
+            cliente = cliente.retornaCliente(getContext(), cliente.retornaMaiorCod(getContext()));
+        }
         Sessao.atualizaListaCliente(cliente);
-        Navigation.findNavController(view).navigate(R.id.action_nav_pedido_dados_pop);
+//        Navigation.findNavController(view).navigate(R.id.action_nav_cliente_dados_pop);
     }
 
     private void preencheComDados(View view, Long codigoCliente) {

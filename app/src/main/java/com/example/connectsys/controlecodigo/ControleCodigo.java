@@ -2,31 +2,31 @@ package com.example.connectsys.controlecodigo;
 
 public class ControleCodigo {
 
-    private Long CodigoBanco;
-    private Long CodigoAndroid;
-    private String Mensagem;
+    private Long codigobanco;
+    private Long codigoandroid;
+    private String mensagem;
 
-    public Long getCodigoBanco() {
-        return CodigoBanco;
+    public Long getCodigobanco() {
+        return codigobanco;
     }
 
-    public void setCodigoBanco(Long codigoBanco) {
-        CodigoBanco = codigoBanco;
+    public void setCodigobanco(Long codigobanco) {
+        this.codigobanco = codigobanco;
     }
 
-    public Long getCodigoAndroid() {
-        return CodigoAndroid;
+    public Long getCodigoandroid() {
+        return codigoandroid;
     }
 
-    public void setCodigoAndroid(Long codigoAndroid) {
-        CodigoAndroid = codigoAndroid;
+    public void setCodigoandroid(Long codigoandroid) {
+        this.codigoandroid = codigoandroid;
     }
 
     public String getMensagem() {
-        return Mensagem;
+        return mensagem;
     }
 
     public void setMensagem(String mensagem) {
-        Mensagem = mensagem;
+        this.mensagem = mensagem;
     }
 }

@@ -1,6 +1,8 @@
 package com.example.connectsys.ui.pedido;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -8,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -16,6 +19,7 @@ import androidx.navigation.Navigation;
 
 import com.example.connectsys.R;
 import com.example.connectsys.classes.pedido.Pedido;
+import com.example.connectsys.uteis.MostraToast;
 import com.example.connectsys.uteis.Sessao;
 
 import java.util.ArrayList;
@@ -45,6 +49,62 @@ public class PedidoFragment extends Fragment {
         ArrayAdapter<Pedido> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, pedidoList);
         listaPedido.setAdapter(adapter);
         Sessao.salvaView(view);
+
+        listaPedido.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View v, int i, long l) {
+                Pedido pedido = (Pedido) listaPedido.getItemAtPosition(i);
+                Bundle bundle = new Bundle();
+                bundle.putLong("codpedido", pedido.getCodpedido());
+                Sessao.setBundle(bundle);
+                Navigation.findNavController(Sessao.retornaView()).navigate(R.id.action_nav_pedido_to_nav_pedido_dados);
+            }
+        });
+
+        listaPedido.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View v, int i, long l) {
+                final Pedido pedido = (Pedido) listaPedido.getItemAtPosition(i);
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+                builder.setTitle("Confirm");
+                builder.setMessage("Confirma a exclusao do pedido " + pedido.getCodpedido() + "?");
+
+                builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        MostraToast toast = new MostraToast();
+                        boolean retorno = pedido.removerPedido(getContext(), pedido.getCodpedido());
+                        if (retorno == true) {
+//                            retorno = pedido.removerPedidoProduto(getContext(), pedido.getCodpedido());
+                            if (retorno == true) {
+                                toast.mostraToastShort(getContext(), "Pedido excluido com sucesso");
+                                Navigation.findNavController(Sessao.retornaView()).navigate(R.id.nav_pedido);
+                            } else {
+                                toast.mostraToastShort(getContext(), "Erro ao deletar pedido");
+                            }
+                            dialog.dismiss();
+                        } else {
+                            toast.mostraToastShort(getContext(), "Erro ao deletar pedido");
+                        }
+                        dialog.dismiss();
+                    }
+                });
+
+                builder.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+                AlertDialog alert = builder.create();
+                alert.show();
+                return true;
+            }
+        });
         return view;
     }
 

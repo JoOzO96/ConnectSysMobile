@@ -4,7 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 
 import com.example.connectsys.classes.cidade.Cidade;
-import com.example.connectsys.ui.cidade.CidadeService;
+import com.example.connectsys.classes.cidade.CidadeService;
 import com.example.connectsys.uteis.GetSetDinamico;
 import com.example.connectsys.uteis.MostraToast;
 import com.example.connectsys.uteis.Sessao;

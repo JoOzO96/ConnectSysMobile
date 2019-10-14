@@ -1,6 +1,4 @@
-package com.example.connectsys.ui.cidade;
-
-import com.example.connectsys.classes.cidade.Cidade;
+package com.example.connectsys.classes.cidade;
 
 import java.util.List;
 

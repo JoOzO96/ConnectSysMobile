@@ -9,8 +9,10 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.connectsys.classes.bairro.Bairro;
 import com.example.connectsys.classes.cidade.Cidade;
 import com.example.connectsys.classes.cliente.Cliente;
+import com.example.connectsys.classes.vendedor.Vendedor;
 import com.example.connectsys.main.MainActivity;
 
 import java.text.DecimalFormat;
@@ -23,6 +25,8 @@ public class Sessao {
     private static ProgressBar progressBar;
     private static List<Cliente> listCliente = new ArrayList<>();
     private static List<Cidade> listCidade = new ArrayList<>();
+    private static List<Vendedor> listVendedor = new ArrayList<>();
+    private static List<Bairro> listBairro = new ArrayList<>();
     private static TextView textoSinc;
     private static Sessao instance;
     private static Context contextSalvo;
@@ -55,6 +59,22 @@ public class Sessao {
             listCliente = cliente.retornaListaCliente(contextSalvo, true);
         }
         return listCliente;
+    }
+
+    public static List<Vendedor> retornaVendedores() {
+        if (listVendedor.size() == 0) {
+            Vendedor vendedor = new Vendedor();
+            listVendedor = vendedor.retornaListaVendedor(contextSalvo);
+        }
+        return listVendedor;
+    }
+
+    public static List<Bairro> retornaBairros() {
+        if (listBairro.size() == 0) {
+            Bairro bairro = new Bairro();
+            listBairro = bairro.retornaListaBairro(contextSalvo);
+        }
+        return listBairro;
     }
 
     public static List<Cidade> retornaCidade() {
@@ -185,6 +205,15 @@ public class Sessao {
         }
         if (!encontrou) {
             listCliente.add(cliente);
+        }
+    }
+
+    public static void removeCliente(Long codigoandroid) {
+        for (int i = 0; listCliente.size() > i; i++) {
+            if (listCliente.get(i).getCodcliente().equals(codigoandroid)) {
+                listCliente.remove(i);
+                break;
+            }
         }
     }
 

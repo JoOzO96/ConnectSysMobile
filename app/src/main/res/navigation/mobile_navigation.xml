@@ -35,7 +35,7 @@
         <action
             android:id="@+id/action_nav_pedido_dados_pop"
             app:popUpTo="@+id/nav_pedido"
-            app:popUpToInclusive="true" />
+            app:popUpToInclusive="false" />
     </fragment>
 
     <fragment

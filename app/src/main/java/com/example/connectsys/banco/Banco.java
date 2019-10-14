@@ -343,6 +343,30 @@ public class Banco extends SQLiteOpenHelper {
         executaSQL(db, "ALTER TABLE formapagto ADD COLUMN textocomprovante TEXT");
         executaSQL(db, "ALTER TABLE formapagto ADD COLUMN codconfiguracaoboleto LONG");
         executaSQL(db, "ALTER TABLE formapagto ADD COLUMN exibir BOOLEAN");
+
+        executaSQL(db, "CREATE TABLE vendedor (codvendedor LONG PRIMARY KEY,cadastroandroid boolean, deletadoandroid boolean, alteradoandroid boolean)");
+        executaSQL(db, "ALTER TABLE vendedor ADD COLUMN tipo TEXT");
+        executaSQL(db, "ALTER TABLE vendedor ADD COLUMN nome TEXT");
+        executaSQL(db, "ALTER TABLE vendedor ADD COLUMN codcidade LONG");
+        executaSQL(db, "ALTER TABLE vendedor ADD COLUMN endereco TEXT");
+        executaSQL(db, "ALTER TABLE vendedor ADD COLUMN numero TEXT");
+        executaSQL(db, "ALTER TABLE vendedor ADD COLUMN complemento TEXT");
+        executaSQL(db, "ALTER TABLE vendedor ADD COLUMN codbairro LONG");
+        executaSQL(db, "ALTER TABLE vendedor ADD COLUMN cep TEXT");
+        executaSQL(db, "ALTER TABLE vendedor ADD COLUMN fone TEXT");
+        executaSQL(db, "ALTER TABLE vendedor ADD COLUMN fonefax TEXT");
+        executaSQL(db, "ALTER TABLE vendedor ADD COLUMN fonecelular TEXT");
+        executaSQL(db, "ALTER TABLE vendedor ADD COLUMN perccomissao LONG");
+        executaSQL(db, "ALTER TABLE vendedor ADD COLUMN email TEXT");
+        executaSQL(db, "ALTER TABLE vendedor ADD COLUMN datanascimento LONG");
+        executaSQL(db, "ALTER TABLE vendedor ADD COLUMN datacadastro LONG");
+        executaSQL(db, "ALTER TABLE vendedor ADD COLUMN status TEXT");
+        executaSQL(db, "ALTER TABLE vendedor ADD COLUMN cpf TEXT");
+        executaSQL(db, "ALTER TABLE vendedor ADD COLUMN rg TEXT");
+        executaSQL(db, "ALTER TABLE vendedor ADD COLUMN tituloeleitoral TEXT");
+        executaSQL(db, "ALTER TABLE vendedor ADD COLUMN codregiao LONG");
+        executaSQL(db, "ALTER TABLE vendedor ADD COLUMN divisor LONG");
+
     }
 
     @Override

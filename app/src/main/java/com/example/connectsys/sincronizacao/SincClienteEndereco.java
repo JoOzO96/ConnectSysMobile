@@ -118,26 +118,26 @@ public class SincClienteEndereco extends Activity {
     }
 
     public void iniciaenvio(Context context, String ip) {
-        Cliente cliente = new Cliente();
-        List<Cliente> clienteList = new ArrayList<>();
+        ClienteEndereco clienteEndereco = new ClienteEndereco();
+        List<ClienteEndereco> clienteList = new ArrayList<>();
         GetSetDinamico getSetDinamico = new GetSetDinamico();
-        List<Field> fieldListCliente = new ArrayList<>(Arrays.asList(Cliente.class.getDeclaredFields()));
-        Cursor cursor = cliente.retornaClienteAlteradaAndroid(context, "cadastroandroid");
+        List<Field> fieldListCliente = new ArrayList<>(Arrays.asList(ClienteEndereco.class.getDeclaredFields()));
+        Cursor cursor = clienteEndereco.retornaClienteEnderecoAlteradaAndroid(context, "cadastroandroid");
         Sessao.colocaTexto("Verificando clientes novos.");
         if (cursor.getCount() > 0) {
             for (long i = 0L; cursor.getCount() != i; i++) {
-                cliente = new Cliente();
+                clienteEndereco = new ClienteEndereco();
                 for (int cid = 0; fieldListCliente.size() != cid; cid++) {
                     if (fieldListCliente.get(cid).getName().toLowerCase().equals("$change") ||
                             fieldListCliente.get(cid).getName().toLowerCase().equals("serialversionuid")) {
                     } else {
                         String tipo = getSetDinamico.retornaTipoCampo(fieldListCliente.get(cid));
                         Object retornoCursor = getSetDinamico.retornaValorCursor(tipo, fieldListCliente.get(cid).getName(), cursor);
-                        Object clienteRetorno = getSetDinamico.insereField(fieldListCliente.get(cid), cliente, retornoCursor);
-                        cliente = (Cliente) clienteRetorno;
+                        Object clienteRetorno = getSetDinamico.insereField(fieldListCliente.get(cid), clienteEndereco, retornoCursor);
+                        clienteEndereco = (ClienteEndereco) clienteRetorno;
                     }
                 }
-                clienteList.add(cliente);
+                clienteList.add(clienteEndereco);
                 Sessao.colocaTexto("Enviando os dados de clientes." + (i + 1) + " de " + cursor.getCount());
                 cursor.moveToNext();
             }
@@ -148,7 +148,7 @@ public class SincClienteEndereco extends Activity {
             String gsonRetorno = gson.toJson(clienteList);
             Log.e("JSON", gsonRetorno);
             EnviaJson enviaJson = new EnviaJson();
-            String url = retRetrofit.retornaSring("cliente", ip);
+            String url = retRetrofit.retornaSring("clienteendereco", ip);
             List<ControleCodigo> retorno = null;
             String retornoEnvio = "";
             try {
@@ -162,40 +162,39 @@ public class SincClienteEndereco extends Activity {
             if (retornoEnvio != null) {
                 ControleCodigo[] conversao = gson.fromJson(retornoEnvio, ControleCodigo[].class);
                 List<ControleCodigo> controleCodigoList = new ArrayList<>(Arrays.asList(conversao));
-                cliente = new Cliente();
+                clienteEndereco = new ClienteEndereco();
                 for (int i = 0; controleCodigoList.size() != i; i++) {
-                    if (controleCodigoList.get(i).getCodigoBanco() == 0) {
+                    if (controleCodigoList.get(i).getCodigobanco() == 0) {
                         MostraToast mostraToast = new MostraToast();
                         mostraToast.mostraToastLong(Sessao.retornaContext(), "Erro: " + controleCodigoList.get(i).getMensagem());
                     } else {
-                        cliente.alteraPedidoCliente(context, controleCodigoList.get(i).getCodigoAndroid(), controleCodigoList.get(i).getCodigoBanco());
-                        cliente.alteraCodCliente(context, controleCodigoList.get(i).getCodigoAndroid(), controleCodigoList.get(i).getCodigoBanco());
-                        cliente.removeClienteAlteradaAndroid(context, "cadastroandroid");
+                        clienteEndereco.alteraCodClienteEndereco(context, controleCodigoList.get(i).getCodigoandroid(), controleCodigoList.get(i).getCodigobanco());
+                        clienteEndereco.removeClienteEnderecoAlteradaAndroid(context, "cadastroandroid");
                     }
 
                 }
             }
         }
-        cliente = new Cliente();
+        clienteEndereco = new ClienteEndereco();
         clienteList = new ArrayList<>();
         getSetDinamico = new GetSetDinamico();
         fieldListCliente = new ArrayList<>(Arrays.asList(Cliente.class.getDeclaredFields()));
-        cursor = cliente.retornaClienteAlteradaAndroid(context, "alteradoandroid");
+        cursor = clienteEndereco.retornaClienteEnderecoAlteradaAndroid(context, "alteradoandroid");
 
         if (cursor.getCount() > 0) {
             for (long i = 0L; cursor.getCount() != i; i++) {
-                cliente = new Cliente();
+                clienteEndereco = new ClienteEndereco();
                 for (int cid = 0; fieldListCliente.size() != cid; cid++) {
                     if (fieldListCliente.get(cid).getName().toLowerCase().equals("$change") ||
                             fieldListCliente.get(cid).getName().toLowerCase().equals("serialversionuid")) {
                     } else {
                         String tipo = getSetDinamico.retornaTipoCampo(fieldListCliente.get(cid));
                         Object retornoCursor = getSetDinamico.retornaValorCursor(tipo, fieldListCliente.get(cid).getName(), cursor);
-                        Object clienteRetorno = getSetDinamico.insereField(fieldListCliente.get(cid), cliente, retornoCursor);
-                        cliente = (Cliente) clienteRetorno;
+                        Object clienteRetorno = getSetDinamico.insereField(fieldListCliente.get(cid), clienteEndereco, retornoCursor);
+                        clienteEndereco = (ClienteEndereco) clienteRetorno;
                     }
                 }
-                clienteList.add(cliente);
+                clienteList.add(clienteEndereco);
 
                 cursor.moveToNext();
             }
@@ -217,13 +216,13 @@ public class SincClienteEndereco extends Activity {
             }
             ControleCodigo[] conversao = gson.fromJson(retornoEnvio, ControleCodigo[].class);
             List<ControleCodigo> controleCodigoList = new ArrayList<>(Arrays.asList(conversao));
-            cliente = new Cliente();
+            clienteEndereco = new ClienteEndereco();
             for (int i = 0; controleCodigoList.size() != i; i++) {
-                if (controleCodigoList.get(i).getCodigoBanco() == 0) {
+                if (controleCodigoList.get(i).getCodigobanco() == 0) {
                     MostraToast mostraToast = new MostraToast();
                     mostraToast.mostraToastLong(Sessao.retornaContext(), "Erro: " + controleCodigoList.get(i).getMensagem());
                 } else {
-                    cliente.removeClienteAlteradaAndroid(context, "alteradoandroid");
+                    clienteEndereco.removeClienteEnderecoAlteradaAndroid(context, "alteradoandroid");
                 }
 
             }

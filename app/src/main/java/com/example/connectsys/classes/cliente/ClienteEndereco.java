@@ -31,6 +31,15 @@ public class ClienteEndereco {
     String tipo;
     String obs;
     String inscricaoestadual;
+    Boolean cadastroandroid;
+
+    public Boolean getCadastroandroid() {
+        return cadastroandroid;
+    }
+
+    public void setCadastroandroid(Boolean cadastroandroid) {
+        this.cadastroandroid = cadastroandroid;
+    }
 
     public Long getCodendereco() {
         return codendereco;

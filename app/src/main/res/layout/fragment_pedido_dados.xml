@@ -28,7 +28,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <AutoCompleteTextView
-            android:id="@+id/auNomecliente"
+            android:id="@+id/auCodcliente"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/textInputLayout"
@@ -38,11 +38,11 @@
             android:id="@+id/auCodvendedor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/auNomecliente"
+            android:layout_below="@+id/auCodcliente"
             android:hint="Código do Vendedor" />
 
         <AutoCompleteTextView
-            android:id="@+id/auFormapagamento"
+            android:id="@+id/auCodformapagto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/auCodvendedor"
@@ -52,7 +52,7 @@
             android:id="@+id/btAdicionaritens"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/auFormapagamento"
+            android:layout_below="@+id/auCodformapagto"
             android:text="Adicionar Itens" />
 
         <LinearLayout

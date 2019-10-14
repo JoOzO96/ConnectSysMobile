@@ -787,8 +787,8 @@ public class Cliente {
         Banco myDb = new Banco(context);
         SQLiteDatabase db = myDb.getReadableDatabase();
         ContentValues values = new ContentValues();
-        values.put("codigo", codigoServidor);
-        int retorno = db.update("cliente", values, "codigo = " + codigoAndroid, null);
+        values.put("codcliente", codigoServidor);
+        int retorno = db.update("cliente", values, "codcliente = " + codigoAndroid, null);
 
     }
 
@@ -801,12 +801,13 @@ public class Cliente {
 
     }
 
-    public Boolean cadastraCliente(Context context, Cliente cliente) {
+    public Boolean cadastraCliente(Context context, Cliente cliente, Boolean sincronizacao) {
         Banco myDb = new Banco(context);
         DadosBanco dadosBanco = new DadosBanco();
         ContentValues valores = new ContentValues();
         SQLiteDatabase db = myDb.getWritableDatabase();
         List<Field> fieldList = new ArrayList<>(Arrays.asList(cliente.getClass().getDeclaredFields()));
+
         for (int i = 0; fieldList.size() != i; i++) {
             valores = dadosBanco.insereValoresContent(fieldList.get(i), cliente, valores);
         }
@@ -834,12 +835,14 @@ public class Cliente {
                     valores.clear();
                     return retorno != -1;
                 } else {
-                    valores.remove("alteradoandroid");
-                    valores.put("alteradoandroid", true);
-                    long retorno = db.update("cliente", valores, "codcliente= " + valores.get("codcliente").toString(), null);
-                    db.close();
-                    valores.clear();
-                    return retorno != -1;
+                    if (!sincronizacao) {
+                        valores.remove("alteradoandroid");
+                        valores.put("alteradoandroid", true);
+                        long retorno = db.update("cliente", valores, "codcliente= " + valores.get("codcliente").toString(), null);
+                        db.close();
+                        valores.clear();
+                        return retorno != -1;
+                    }
                 }
             }
             return true;

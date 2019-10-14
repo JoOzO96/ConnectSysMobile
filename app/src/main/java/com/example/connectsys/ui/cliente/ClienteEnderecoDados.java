@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -12,11 +13,13 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import com.example.connectsys.R;
+import com.example.connectsys.classes.cidade.Cidade;
 import com.example.connectsys.classes.cliente.ClienteEndereco;
 import com.example.connectsys.uteis.GetSetDinamico;
 import com.example.connectsys.uteis.GetSetDinamicoTelas;
 import com.example.connectsys.uteis.Mascara;
 import com.example.connectsys.uteis.Sessao;
+import com.example.connectsys.uteis.SimpleFilterableAdapter;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -38,6 +41,8 @@ public class ClienteEnderecoDados extends Fragment {
     private EditText txCep;
     private EditText txInscricaoestadual;
     private EditText txFone;
+    private AutoCompleteTextView auCodcidade;
+    private AutoCompleteTextView auCodbairro;
     private Button btCancelar;
     private Button btSalvar;
 
@@ -87,6 +92,9 @@ public class ClienteEnderecoDados extends Fragment {
         for (int i = 0; fieldList.size() != i; i++) {
             valorCampo = "";
             nomecampo = fieldList.get(i).getName();
+            if (nomecampo.equals("codcidade")) {
+                nomecampo = "auCodcidade";
+            }
             valorCampo = getSetDinamicoTelas.retornaValorEditText(view, nomecampo);
             if (fieldList.get(i).getName().equals("fone")) {
                 valorCampo = Mascara.unmask(valorCampo);
@@ -100,7 +108,9 @@ public class ClienteEnderecoDados extends Fragment {
                 clienteEndereco = (ClienteEndereco) retorno;
             }
 
+
         }
+
         clienteEndereco.setCodcliente(codcliente);
         return clienteEndereco.cadastraClienteEndereco(getContext(), clienteEndereco);
     }
@@ -137,6 +147,26 @@ public class ClienteEnderecoDados extends Fragment {
                     } else {
                         getSetDinamicoTelas.colocaValorEditText(fieldListPassar.get(i), view, fieldListPassar, "", mascara);
                     }
+                } else if (fieldListPassar.get(i).getName().substring(0, 2).equals("au")) {
+
+                    if (fieldListPassar.get(i).getName().equals("auCodcidade")) {
+                        auCodcidade = (AutoCompleteTextView) getSetDinamicoTelas.retornaIDCampo(view, "auCodcidade");
+                        List<Cidade> listaCidade = Sessao.retornaCidade();
+                        SimpleFilterableAdapter<Cidade> adapter = new SimpleFilterableAdapter<>(getContext(), android.R.layout.simple_list_item_1, listaCidade);
+                        auCodcidade.setAdapter(adapter);
+                        if (clienteEndereco.getCodcidade() != null) {
+                            auCodcidade.setText(new Cidade().retornaCidadeObjeto(getContext(), clienteEndereco.getCodcidade()).toString());
+                        }
+                    } else if (fieldListPassar.get(i).getName().equals("auCodbairro")) {
+                        auCodbairro = (AutoCompleteTextView) getSetDinamicoTelas.retornaIDCampo(view, "auCodbairro");
+                        List<Cidade> listaCidade = Sessao.retornaCidade();
+                        SimpleFilterableAdapter<Cidade> adapter = new SimpleFilterableAdapter<>(getContext(), android.R.layout.simple_list_item_1, listaCidade);
+                        auCodbairro.setAdapter(adapter);
+                        if (clienteEndereco.getCodbairro() != null) {
+                            auCodbairro.setText(new Cidade().retornaCidadeObjeto(getContext(), clienteEndereco.getCodbairro()).toString());
+                        }
+                    }
+
                 }
 
             }

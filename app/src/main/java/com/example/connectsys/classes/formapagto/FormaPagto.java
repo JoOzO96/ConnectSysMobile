@@ -239,4 +239,24 @@ public class FormaPagto {
         return formaPagto;
     }
 
+    public List<FormaPagto> retornaListaFormaPagto(Context context) {
+        Banco myDb = new Banco(context);
+        List<FormaPagto> formaPagtos = new ArrayList<>();
+        FormaPagto formaPagto = new FormaPagto();
+        GetSetDinamico getSetDinamico = new GetSetDinamico();
+        SQLiteDatabase db = myDb.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM formapagto", null);
+
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            for (int i = 0; i < cursor.getCount(); i++) {
+                formaPagto = new FormaPagto();
+                formaPagto = retornaFormapagto(context, cursor.getLong(cursor.getColumnIndex("codformapagto")));
+                formaPagtos.add(formaPagto);
+                cursor.moveToNext();
+            }
+        }
+        return formaPagtos;
+    }
+
 }

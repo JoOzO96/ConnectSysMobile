@@ -60,7 +60,7 @@ public class SincCliente extends Activity {
             });
 
             boolean status = cliInsere.cadastraCliente(
-                    context, requestCliente.get(cli)
+                    context, requestCliente.get(cli), true
             );
 
         }
@@ -171,15 +171,16 @@ public class SincCliente extends Activity {
                 List<ControleCodigo> controleCodigoList = new ArrayList<>(Arrays.asList(conversao));
                 cliente = new Cliente();
                 for (int i = 0; controleCodigoList.size() != i; i++) {
-                    if (controleCodigoList.get(i).getCodigoBanco() == 0) {
+                    if (controleCodigoList.get(i).getCodigobanco() == 0) {
                         MostraToast mostraToast = new MostraToast();
                         mostraToast.mostraToastLong(Sessao.retornaContext(), "Erro: " + controleCodigoList.get(i).getMensagem());
                     } else {
-                        cliente.alteraPedidoCliente(context, controleCodigoList.get(i).getCodigoAndroid(), controleCodigoList.get(i).getCodigoBanco());
-                        cliente.alteraCodCliente(context, controleCodigoList.get(i).getCodigoAndroid(), controleCodigoList.get(i).getCodigoBanco());
+                        cliente.alteraPedidoCliente(context, controleCodigoList.get(i).getCodigoandroid(), controleCodigoList.get(i).getCodigobanco());
+                        cliente.alteraCodCliente(context, controleCodigoList.get(i).getCodigoandroid(), controleCodigoList.get(i).getCodigobanco());
+                        Sessao.removeCliente(controleCodigoList.get(i).getCodigoandroid());
+                        Sessao.atualizaListaCliente(cliente.retornaCliente(context, controleCodigoList.get(i).getCodigobanco()));
                         cliente.removeClienteAlteradaAndroid(context, "cadastroandroid");
                     }
-
                 }
             }
         }
@@ -226,7 +227,7 @@ public class SincCliente extends Activity {
             List<ControleCodigo> controleCodigoList = new ArrayList<>(Arrays.asList(conversao));
             cliente = new Cliente();
             for (int i = 0; controleCodigoList.size() != i; i++) {
-                if (controleCodigoList.get(i).getCodigoBanco() == 0) {
+                if (controleCodigoList.get(i).getCodigobanco() == 0) {
                     MostraToast mostraToast = new MostraToast();
                     mostraToast.mostraToastLong(Sessao.retornaContext(), "Erro: " + controleCodigoList.get(i).getMensagem());
                 } else {
