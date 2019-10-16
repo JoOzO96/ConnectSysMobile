@@ -75,7 +75,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <AutoCompleteTextView
-            android:id="@+id/auBairro"
+            android:id="@+id/auCodbairro"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/textInputLayout3"
@@ -87,7 +87,7 @@
             android:layout_width="match_parent"
             android:id="@+id/auCodcidade"
             android:layout_height="match_parent"
-            android:layout_below="@+id/auBairro"
+            android:layout_below="@+id/auCodbairro"
             android:hint="Cidade"></AutoCompleteTextView>
 
         <com.google.android.material.textfield.TextInputLayout

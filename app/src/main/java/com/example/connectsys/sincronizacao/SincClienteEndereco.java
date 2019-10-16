@@ -178,7 +178,7 @@ public class SincClienteEndereco extends Activity {
         clienteEndereco = new ClienteEndereco();
         clienteList = new ArrayList<>();
         getSetDinamico = new GetSetDinamico();
-        fieldListCliente = new ArrayList<>(Arrays.asList(Cliente.class.getDeclaredFields()));
+        fieldListCliente = new ArrayList<>(Arrays.asList(ClienteEndereco.class.getDeclaredFields()));
         cursor = clienteEndereco.retornaClienteEnderecoAlteradaAndroid(context, "alteradoandroid");
 
         if (cursor.getCount() > 0) {

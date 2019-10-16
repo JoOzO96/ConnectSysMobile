@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.example.connectsys.classes.bairro.Bairro;
 import com.example.connectsys.classes.cidade.Cidade;
 import com.example.connectsys.classes.cliente.Cliente;
+import com.example.connectsys.classes.produto.Produto;
 import com.example.connectsys.classes.vendedor.Vendedor;
 import com.example.connectsys.main.MainActivity;
 
@@ -27,6 +28,7 @@ public class Sessao {
     private static List<Cidade> listCidade = new ArrayList<>();
     private static List<Vendedor> listVendedor = new ArrayList<>();
     private static List<Bairro> listBairro = new ArrayList<>();
+    private static List<Produto> listProduto = new ArrayList<>();
     private static TextView textoSinc;
     private static Sessao instance;
     private static Context contextSalvo;
@@ -208,6 +210,20 @@ public class Sessao {
         }
     }
 
+    public static void atualizaListaBairro(Bairro bairro) {
+        boolean encontrou = false;
+        for (int i = 0; listBairro.size() > i; i++) {
+            if (listBairro.get(i).getCodbairro().equals(bairro.getCodbairro())) {
+                listBairro.set(i, bairro);
+                encontrou = true;
+                break;
+            }
+        }
+        if (!encontrou) {
+            listBairro.add(bairro);
+        }
+    }
+
     public static void removeCliente(Long codigoandroid) {
         for (int i = 0; listCliente.size() > i; i++) {
             if (listCliente.get(i).getCodcliente().equals(codigoandroid)) {
@@ -215,6 +231,24 @@ public class Sessao {
                 break;
             }
         }
+    }
+
+    public static void removeBairro(Long codigoandroid) {
+        for (int i = 0; listBairro.size() > i; i++) {
+            if (listBairro.get(i).getCodbairro().equals(codigoandroid)) {
+                listBairro.remove(i);
+                break;
+            }
+        }
+    }
+
+    public static List<Produto> retornaProduto() {
+
+        if (listProduto.size() == 0) {
+            Produto produto = new Produto();
+            listProduto = produto.retornaListaProduto(contextSalvo);
+        }
+        return listProduto;
     }
 
     public ProgressDialog getProgressDialog() {

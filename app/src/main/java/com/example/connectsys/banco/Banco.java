@@ -367,6 +367,22 @@ public class Banco extends SQLiteOpenHelper {
         executaSQL(db, "ALTER TABLE vendedor ADD COLUMN codregiao LONG");
         executaSQL(db, "ALTER TABLE vendedor ADD COLUMN divisor LONG");
 
+        executaSQL(db, "CREATE TABLE bairro (codbairro LONG PRIMARY KEY,cadastroandroid boolean, deletadoandroid boolean, alteradoandroid boolean)");
+        executaSQL(db, "ALTER TABLE bairro ADD COLUMN nome TEXT");
+
+        executaSQL(db, "CREATE TABLE produtoprecotabela (codpreco LONG PRIMARY KEY)");
+        executaSQL(db, "ALTER TABLE produtoprecotabela ADD COLUMN codtabelapreco LONG");
+        executaSQL(db, "ALTER TABLE produtoprecotabela ADD COLUMN codproduto LONG");
+        executaSQL(db, "ALTER TABLE produtoprecotabela ADD COLUMN percentual LONG");
+        executaSQL(db, "ALTER TABLE produtoprecotabela ADD COLUMN valor DOUBLE");
+        executaSQL(db, "ALTER TABLE produtoprecotabela ADD COLUMN percminimo LONG");
+        executaSQL(db, "ALTER TABLE produtoprecotabela ADD COLUMN valorminimo DOUBLE");
+
+        executaSQL(db, "CREATE TABLE tabelapreco (codtabelapreco LONGPRIMARY KEY)");
+        executaSQL(db, "ALTER TABLE tabelapreco ADD COLUMN descricao TEXT");
+        executaSQL(db, "ALTER TABLE tabelapreco ADD COLUMN perccomissao LONG");
+        executaSQL(db, "ALTER TABLE tabelapreco ADD COLUMN mostrarnalista BOOLEAN");
+        executaSQL(db, "ALTER TABLE tabelapreco ADD COLUMN mostrarnalocalizacao BOOLEAN");
     }
 
     @Override

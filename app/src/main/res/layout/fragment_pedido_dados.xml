@@ -48,6 +48,13 @@
             android:layout_below="@+id/auCodvendedor"
             android:hint="Forma de pagamento" />
 
+        <AutoCompleteTextView
+            android:id="@+id/auCodtabela"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/auCodformapagto"
+            android:hint="Tabela Preço" />
+
         <Button
             android:id="@+id/btAdicionaritens"
             android:layout_width="match_parent"

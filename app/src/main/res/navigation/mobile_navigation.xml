@@ -79,4 +79,11 @@
         android:name="com.example.connectsys.ui.sincroniza.SincronizaFragment"
         android:label="@string/menu_sinc"
         tools:layout="@layout/fragment_sincroniza" />
+
+    <fragment
+        android:id="@+id/popup_pedido"
+        android:name="com.example.connectsys.ui.pedidoproduto.PedidoProdutoTela"
+        android:label="@string/menu_pedido_produto"
+        tools:layout="@layout/pop_up_pedido_produto" />
+
 </navigation>

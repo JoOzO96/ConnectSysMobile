@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import com.example.connectsys.R;
+import com.example.connectsys.classes.bairro.Bairro;
 import com.example.connectsys.classes.cidade.Cidade;
 import com.example.connectsys.classes.cliente.ClienteEndereco;
 import com.example.connectsys.uteis.GetSetDinamico;
@@ -92,10 +93,17 @@ public class ClienteEnderecoDados extends Fragment {
         for (int i = 0; fieldList.size() != i; i++) {
             valorCampo = "";
             nomecampo = fieldList.get(i).getName();
-            if (nomecampo.equals("codcidade")) {
-                nomecampo = "auCodcidade";
+            if (nomecampo.equals("codbairro")) {
+                nomecampo = "auCodbairro";
+                Sessao.setaContext(getContext());
+                valorCampo = getSetDinamicoTelas.retornaValorEditTextCadastro(view, nomecampo);
+            } else {
+                if (nomecampo.equals("codcidade")) {
+                    nomecampo = "auCodcidade";
+                }
+                valorCampo = getSetDinamicoTelas.retornaValorEditText(view, nomecampo);
             }
-            valorCampo = getSetDinamicoTelas.retornaValorEditText(view, nomecampo);
+
             if (fieldList.get(i).getName().equals("fone")) {
                 valorCampo = Mascara.unmask(valorCampo);
             }
@@ -159,11 +167,11 @@ public class ClienteEnderecoDados extends Fragment {
                         }
                     } else if (fieldListPassar.get(i).getName().equals("auCodbairro")) {
                         auCodbairro = (AutoCompleteTextView) getSetDinamicoTelas.retornaIDCampo(view, "auCodbairro");
-                        List<Cidade> listaCidade = Sessao.retornaCidade();
-                        SimpleFilterableAdapter<Cidade> adapter = new SimpleFilterableAdapter<>(getContext(), android.R.layout.simple_list_item_1, listaCidade);
+                        List<Bairro> bairros = Sessao.retornaBairros();
+                        SimpleFilterableAdapter<Bairro> adapter = new SimpleFilterableAdapter<>(getContext(), android.R.layout.simple_list_item_1, bairros);
                         auCodbairro.setAdapter(adapter);
                         if (clienteEndereco.getCodbairro() != null) {
-                            auCodbairro.setText(new Cidade().retornaCidadeObjeto(getContext(), clienteEndereco.getCodbairro()).toString());
+                            auCodbairro.setText(new Bairro().retornaBairro(getContext(), clienteEndereco.getCodbairro()).toString());
                         }
                     }
 

@@ -79,20 +79,23 @@ public class GetSetDinamico {
     public Object retornaValorCursor(String tipo, String nome, Cursor cursor1) {
         Object objeto = null;
         if (nome.equals("$change") || nome.equals("serialversionuid") || nome.equals("context")) {
-
         } else {
-            if (tipo.equals("STRING") || tipo.equals("EDITTEXT")) {
-                objeto = cursor1.getString(cursor1.getColumnIndex(nome));
-            } else if (tipo.equals("LONG")) {
-                objeto = cursor1.getLong(cursor1.getColumnIndex(nome));
-            } else if (tipo.equals("DATE")) {
-                objeto = cursor1.getLong(cursor1.getColumnIndex(nome));
-            } else if (tipo.equals("INT")) {
-                objeto = cursor1.getInt(cursor1.getColumnIndex(nome));
-            } else if (tipo.equals("DOUBLE")) {
-                objeto = cursor1.getDouble(cursor1.getColumnIndex(nome));
-            } else if (tipo.equals("BOOLEAN") || tipo.equals("CHECKBOX")) {
-                objeto = cursor1.getInt(cursor1.getColumnIndex(nome)) == 1;
+            try {
+                if (tipo.equals("STRING") || tipo.equals("EDITTEXT")) {
+                    objeto = cursor1.getString(cursor1.getColumnIndex(nome));
+                } else if (tipo.equals("LONG")) {
+                    objeto = cursor1.getLong(cursor1.getColumnIndex(nome));
+                } else if (tipo.equals("DATE")) {
+                    objeto = cursor1.getLong(cursor1.getColumnIndex(nome));
+                } else if (tipo.equals("INT")) {
+                    objeto = cursor1.getInt(cursor1.getColumnIndex(nome));
+                } else if (tipo.equals("DOUBLE")) {
+                    objeto = cursor1.getDouble(cursor1.getColumnIndex(nome));
+                } else if (tipo.equals("BOOLEAN") || tipo.equals("CHECKBOX")) {
+                    objeto = cursor1.getInt(cursor1.getColumnIndex(nome)) == 1;
+                }
+            } catch (Exception e) {
+                Log.e("EXCEPTION CURSOR", nome);
             }
         }
         return objeto;

@@ -36,11 +36,15 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
         Sessao.setaContext(this);
+
         final Handler handler = new Handler();
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 Sessao.retornaClientes();
+                Sessao.retornaCidade();
+                Sessao.retornaBairros();
+                Sessao.retornaProduto();
             }
         });
         thread.setPriority(Thread.MAX_PRIORITY);

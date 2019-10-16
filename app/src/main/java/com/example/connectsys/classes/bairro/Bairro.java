@@ -38,6 +38,9 @@ public class Bairro {
     }
 
     public Boolean getCadastroandroid() {
+        if (cadastroandroid == null) {
+            return false;
+        }
         return cadastroandroid;
     }
 
@@ -62,7 +65,7 @@ public class Bairro {
 
     @Override
     public String toString() {
-        return codbairro + "-" + nome;
+        return codbairro + " - " + nome;
     }
 
     public Bairro retornaBairro(Context context, Long codBairro) {
@@ -95,8 +98,8 @@ public class Bairro {
 
     public List<Bairro> retornaListaBairro(Context context) {
         Banco myDb = new Banco(context);
-        List<Bairro> clienteEnderecos = new ArrayList<>();
-        Bairro clienteEndereco = new Bairro();
+        List<Bairro> bairros = new ArrayList<>();
+        Bairro bairro = new Bairro();
         GetSetDinamico getSetDinamico = new GetSetDinamico();
         SQLiteDatabase db = myDb.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM bairro", null);
@@ -104,13 +107,13 @@ public class Bairro {
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
             for (int i = 0; i < cursor.getCount(); i++) {
-                clienteEndereco = new Bairro();
-                clienteEndereco = retornaBairro(context, cursor.getLong(cursor.getColumnIndex("codbairro")));
-                clienteEnderecos.add(clienteEndereco);
+                bairro = new Bairro();
+                bairro = retornaBairro(context, cursor.getLong(cursor.getColumnIndex("codbairro")));
+                bairros.add(bairro);
                 cursor.moveToNext();
             }
         }
-        return clienteEnderecos;
+        return bairros;
     }
 
     public Long retornaMaiorCod(Context context) {
@@ -141,6 +144,16 @@ public class Bairro {
         SQLiteDatabase db = myDb.getReadableDatabase();
         ContentValues values = new ContentValues();
         values.put("codbairro", codigoServidor);
+        int retorno = db.update("clienteendereco", values, "codbairro = " + codigoAndroid, null);
+        retorno = db.update("bairro", values, "codbairro = " + codigoAndroid, null);
+
+    }
+
+    public void alteraClienteBairro(Context context, Long codigoAndroid, Long codigoServidor) {
+        Banco myDb = new Banco(context);
+        SQLiteDatabase db = myDb.getReadableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("codbairro", codigoServidor);
         int retorno = db.update("bairro", values, "codbairro = " + codigoAndroid, null);
 
     }
@@ -154,14 +167,14 @@ public class Bairro {
 
     }
 
-    public Boolean cadastraBairro(Context context, Bairro clienteEndereco) {
+    public Boolean cadastraBairro(Context context, Bairro bairro) {
         Banco myDb = new Banco(context);
         DadosBanco dadosBanco = new DadosBanco();
         ContentValues valores = new ContentValues();
         SQLiteDatabase db = myDb.getWritableDatabase();
-        List<Field> fieldList = new ArrayList<>(Arrays.asList(clienteEndereco.getClass().getDeclaredFields()));
+        List<Field> fieldList = new ArrayList<>(Arrays.asList(bairro.getClass().getDeclaredFields()));
         for (int i = 0; fieldList.size() != i; i++) {
-            valores = dadosBanco.insereValoresContent(fieldList.get(i), clienteEndereco, valores);
+            valores = dadosBanco.insereValoresContent(fieldList.get(i), bairro, valores);
         }
         if (valores.get("codbairro") == null) {
             long retorno = retornaMaiorCod(context);
@@ -175,18 +188,18 @@ public class Bairro {
             valores.clear();
             return retorno != -1;
         } else {
-            Bairro clienteret = clienteEndereco.retornaBairro(context, Long.parseLong(valores.get("codbairro").toString()));
-            if (clienteret.equals(new Bairro())) {
+            Bairro bairroret = bairro.retornaBairro(context, Long.parseLong(valores.get("codbairro").toString()));
+            if (bairroret.equals(new Bairro())) {
                 valores.remove("cadastroandroid");
                 long retorno = db.insert("bairro", null, valores);
                 db.close();
                 valores.clear();
                 return retorno != -1;
             } else {
-                if (!clienteret.equals(clienteEndereco)) {
+                if (!bairroret.equals(bairro)) {
                     valores.remove("alteradoandroid");
                     valores.put("alteradoandroid", true);
-                    long retorno = db.update("bairro", valores, "codbairro= " + valores.get("bairro").toString(), null);
+                    long retorno = db.update("bairro", valores, "codbairro= " + valores.get("codbairro").toString(), null);
                     db.close();
                     valores.clear();
                     return retorno != -1;

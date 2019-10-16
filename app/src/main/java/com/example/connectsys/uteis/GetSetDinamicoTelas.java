@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.connectsys.R;
+import com.example.connectsys.classes.bairro.Bairro;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -209,6 +210,30 @@ public class GetSetDinamicoTelas extends Fragment {
 
 
         return "";
+    }
+
+    public String retornaValorEditTextCadastro(View view, String nomeCampo) {
+        String primeiro = nomeCampo;
+        String valor = "";
+
+
+        EditText valorId = (EditText) retornaIDCampo(view, primeiro);
+        if (valorId != null) {
+            if (valorId.getText() != null) {
+                if (nomeCampo.substring(0, 2).equals("au")) {
+                    if (valorId.getText().toString().contains(" -")) {
+                        valor = valorId.getText().toString().substring(0, valorId.getText().toString().indexOf("-") - 1);
+
+                    } else {
+                        Bairro bairro = new Bairro();
+                        bairro.setNome(valorId.getText().toString());
+                        new Bairro().cadastraBairro(Sessao.retornaContext(), bairro);
+                        valor = bairro.retornaMaiorCod(Sessao.retornaContext()).toString();
+                    }
+                }
+            }
+        }
+        return valor;
     }
 
     public Boolean retornaValorCheckBox(View view, String nomeCampo) {

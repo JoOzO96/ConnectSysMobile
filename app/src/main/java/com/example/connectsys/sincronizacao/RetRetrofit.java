@@ -77,6 +77,8 @@ public class RetRetrofit {
                 url = "http://" + ip + "/api/PedidoProduto";
             } else if (tipo.equals("clienteendereco")) {
                 url = "http://" + ip + "/api/clienteendereco";
+            } else if (tipo.equals("bairro")) {
+                url = "http://" + ip + "/api/bairro";
             }
         } else {
             if (tipo.equals("cidade")) {
@@ -91,6 +93,8 @@ public class RetRetrofit {
                 url = "http://" + ip + "/api/PedidoProduto";
             } else if (tipo.equals("clienteendereco")) {
                 url = "http://" + ip + "/api/clienteendereco";
+            } else if (tipo.equals("bairro")) {
+                url = "http://" + ip + "/api/bairro";
             }
         }
         return url;

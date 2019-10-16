@@ -10,13 +10,16 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.navigation.Navigation;
 
 import com.example.connectsys.R;
 import com.example.connectsys.classes.cliente.Cliente;
 import com.example.connectsys.classes.formapagto.FormaPagto;
 import com.example.connectsys.classes.pedido.Pedido;
+import com.example.connectsys.classes.tabelapreco.TabelaPreco;
 import com.example.connectsys.classes.vendedor.Vendedor;
+import com.example.connectsys.ui.pedidoproduto.PedidoProdutoTela;
 import com.example.connectsys.uteis.GetSetDinamico;
 import com.example.connectsys.uteis.GetSetDinamicoTelas;
 import com.example.connectsys.uteis.Sessao;
@@ -63,7 +66,7 @@ public class PedidoDados extends Fragment {
         btAdicionaritens = view.findViewById(R.id.btAdicionaritens);
         btCancelar = view.findViewById(R.id.btCancelar);
         btSalvar = view.findViewById(R.id.btSalvar);
-        Bundle bundle = Sessao.retornaBundle();
+        final Bundle bundle = Sessao.retornaBundle();
         Long codpedido = bundle.getLong("codpedido");
         Sessao.salvaView(view);
         btSalvar.setOnClickListener(new View.OnClickListener() {
@@ -137,6 +140,11 @@ public class PedidoDados extends Fragment {
                         List<FormaPagto> listaFormaPagtos = new FormaPagto().retornaListaFormaPagto(getContext());
                         SimpleFilterableAdapter<FormaPagto> adapter = new SimpleFilterableAdapter<>(getContext(), android.R.layout.simple_list_item_1, listaFormaPagtos);
                         auCodformapagto.setAdapter(adapter);
+                    } else if (fieldListTela.get(i).getName().toLowerCase().equals("aucodtabela")) {
+                        Sessao.setaContext(getContext());
+                        List<TabelaPreco> tabelaPrecos = new TabelaPreco().retornaListaTabelaPrecos(getContext());
+                        SimpleFilterableAdapter<TabelaPreco> adapter = new SimpleFilterableAdapter<>(getContext(), android.R.layout.simple_list_item_1, tabelaPrecos);
+                        auCodformapagto.setAdapter(adapter);
                     }
 
                 }
@@ -149,7 +157,10 @@ public class PedidoDados extends Fragment {
                 salvo = salvaPedido(view, false, false);
 
                 if (salvo) {
-
+                    FragmentManager fragmentManager = getFragmentManager();
+                    PedidoProdutoTela pedidoProdutoTela = new PedidoProdutoTela();
+                    Bundle bundle = new Bundle();
+                    pedidoProdutoTela.show(fragmentManager, "Pedido Produto");
                 }
 
             }
