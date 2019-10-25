@@ -73,8 +73,8 @@ public class RetRetrofit {
                 url = "http://" + ip + "/api/parcelas";
             } else if (tipo.equals("pedido")) {
                 url = "http://" + ip + "/api/Pedido";
-            } else if (tipo.equals("pedidoproduto")) {
-                url = "http://" + ip + "/api/PedidoProduto";
+            } else if (tipo.equals("pedidoitem")) {
+                url = "http://" + ip + "/api/pedidoitem";
             } else if (tipo.equals("clienteendereco")) {
                 url = "http://" + ip + "/api/clienteendereco";
             } else if (tipo.equals("bairro")) {
@@ -89,8 +89,8 @@ public class RetRetrofit {
                 url = "http://" + ip + "/api/Cliente";
             } else if (tipo.equals("pedido")) {
                 url = "http://" + ip + "/api/Pedido";
-            } else if (tipo.equals("pedidoproduto")) {
-                url = "http://" + ip + "/api/PedidoProduto";
+            } else if (tipo.equals("pedidoitem")) {
+                url = "http://" + ip + "/api/pedidoitem";
             } else if (tipo.equals("clienteendereco")) {
                 url = "http://" + ip + "/api/clienteendereco";
             } else if (tipo.equals("bairro")) {

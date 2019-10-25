@@ -1,5 +1,18 @@
 package com.example.connectsys.classes.pedidoproduto;
 
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+
+import com.example.connectsys.banco.Banco;
+import com.example.connectsys.uteis.DadosBanco;
+import com.example.connectsys.uteis.GetSetDinamico;
+
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 public class PedidoItem {
@@ -564,6 +577,11 @@ public class PedidoItem {
     }
 
     @Override
+    public String toString() {
+        return "" + codproduto;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof PedidoItem)) return false;
@@ -638,4 +656,99 @@ public class PedidoItem {
     }
 
 
+    public Boolean cadastraPedidoItem(Context context, PedidoItem pedidoItem) {
+        Banco myDb = new Banco(context);
+        DadosBanco dadosBanco = new DadosBanco();
+        ContentValues valores = new ContentValues();
+        SQLiteDatabase db = myDb.getWritableDatabase();
+        List<Field> fieldList = new ArrayList<>(Arrays.asList(pedidoItem.getClass().getDeclaredFields()));
+
+        for (int i = 0; fieldList.size() != i; i++) {
+            valores = dadosBanco.insereValoresContent(fieldList.get(i), pedidoItem, valores);
+        }
+
+        if (valores.get("codpedidoitem") == null) {
+            long retorno = retornaMaiorCod(context);
+            retorno = retorno + 1;
+            valores.remove("cadastroandroid");
+            valores.put("codpedidoitem", retorno);
+            valores.put("cadastroandroid", true);
+            retorno = db.insert("pedidoitem", null, valores);
+            db.close();
+            valores.clear();
+            return retorno != -1;
+        } else {
+            valores.remove("alteradoandroid");
+            valores.put("alteradoandroid", true);
+            long retorno = db.update("pedidoitem", valores, "codpedidoitem= " + valores.get("codpedidoitem").toString(), null);
+            db.close();
+            valores.clear();
+            return retorno != -1;
+        }
+    }
+
+    public Long retornaMaiorCod(Context context) {
+        Banco myDb = new Banco(context);
+        SQLiteDatabase db = myDb.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT  rowid _id,  max(codpedidoitem) from pedidoitem", null);
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            return cursor.getLong(1);
+        } else {
+            return 0L;
+        }
+    }
+
+    public boolean removerPedido(Context context, Long codpedido) {
+        Banco myDb = new Banco(context);
+        SQLiteDatabase db = myDb.getWritableDatabase();
+        int retorno = db.delete("pedidoitem", "codpedidoitem = " + codpedido, null);
+        return retorno > 0;
+    }
+
+
+    public List<PedidoItem> retornaItensPedido(Context context, Long codpedido) {
+        List<PedidoItem> itensPedido = new ArrayList<>();
+        Banco myDb = new Banco(context);
+        PedidoItem pedidoItem = new PedidoItem();
+        GetSetDinamico getSetDinamico = new GetSetDinamico();
+        SQLiteDatabase db = myDb.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT rowid _id,* FROM pedidoitem where codpedido = " + codpedido, null);
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+        }
+        List<Field> fieldList = new ArrayList<>(Arrays.asList(PedidoItem.class.getDeclaredFields()));
+        for (int j = 0; cursor.getCount() != j; j++) {
+            pedidoItem = new PedidoItem();
+            for (int f = 0; fieldList.size() != f; f++) {
+                String tipo = getSetDinamico.retornaTipoCampo(fieldList.get(f));
+                String nomeCampo = fieldList.get(f).getName().toLowerCase();
+                Object retorno = getSetDinamico.retornaValorCursor(tipo, nomeCampo, cursor);
+                if (retorno != null) {
+                    Object ret = getSetDinamico.insereField(fieldList.get(f), pedidoItem, retorno);
+                    pedidoItem = (PedidoItem) ret;
+                }
+            }
+            itensPedido.add(pedidoItem);
+            cursor.moveToNext();
+        }
+        db.close();
+        return itensPedido;
+    }
+
+    public boolean removerPedidoItem(Context context, Long codpedidoitem) {
+        Banco myDb = new Banco(context);
+        SQLiteDatabase db = myDb.getWritableDatabase();
+        int retorno = db.delete("pedidoitem", "codpedidoitem = " + codpedidoitem, null);
+        return retorno > 0;
+    }
+
+    public void removePedidoProdutoAlteradaAndroid(Context context, String campo) {
+        Banco myDb = new Banco(context);
+        SQLiteDatabase db = myDb.getReadableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(campo, "0");
+        int retorno = db.update("pedidoitem", values, campo + " = 1", null);
+
+    }
 }

@@ -1038,4 +1038,56 @@ public class Pedido {
         int retorno = db.delete("pedidoproduto", "codpedido = " + codpedido, null);
         return retorno > -1;
     }
+
+    public Cursor retornaPedidoAlteradaAndroid(Context context, String tipo) {
+        Banco myDb = new Banco(context);
+        SQLiteDatabase db = myDb.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM pedido where " + tipo + " = 1", null);
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+        }
+        db.close();
+        return cursor;
+    }
+
+    public List<Pedido> alteraCodPedido(Context context, Long codigoAndroid, Long codigoServidor, List<Pedido> pedidoList) {
+        Banco myDb = new Banco(context);
+        SQLiteDatabase db = myDb.getReadableDatabase();
+        ContentValues values = new ContentValues();
+        Pedido pedido = new Pedido().retornaPedido(context, codigoServidor);
+
+        if (!pedido.equals(new Pedido())) {
+            for (int i = 0; pedidoList.size() > i; i++) {
+                if (pedidoList.get(i).getCodpedido().equals(pedido.getCodpedido())) {
+                    pedidoList.get(i).setCodpedido(Long.parseLong(String.valueOf(9999 + pedido.getCodpedido())));
+                }
+            }
+            alteraCodPedido(context, pedido.getCodpedido(), Long.parseLong(String.valueOf(9999 + pedido.getCodpedido())), pedidoList);
+            alteraCodPedidoProduto(context, pedido.getCodpedido(), Long.parseLong(String.valueOf(9999 + pedido.getCodpedido())));
+//            alteraParcelas(context, pedido.getCodpedido(), Long.parseLong(String.valueOf(9999 + pedido.getCodpedido())));
+        }
+
+        values.put("codpedido", codigoServidor);
+        int retorno = db.update("pedido", values, "codpedido = " + codigoAndroid, null);
+        values.clear();
+        return pedidoList;
+    }
+
+    public void alteraCodPedidoProduto(Context context, Long codigoAndroid, Long codigoServidor) {
+        Banco myDb = new Banco(context);
+        SQLiteDatabase db = myDb.getReadableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("codpedido", codigoServidor);
+        int retorno = db.update("pedidoitem", values, "codpedido = " + codigoAndroid, null);
+
+    }
+
+    public void removePedidoAlteradaAndroid(Context context, String campo, Long pedido) {
+        Banco myDb = new Banco(context);
+        SQLiteDatabase db = myDb.getReadableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(campo, "0");
+        int retorno = db.update("pedido", values, campo + " = 1 AND codpedido = " + pedido, null);
+
+    }
 }

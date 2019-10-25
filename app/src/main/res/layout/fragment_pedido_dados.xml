@@ -55,11 +55,18 @@
             android:layout_below="@+id/auCodformapagto"
             android:hint="Tabela Preço" />
 
+        <AutoCompleteTextView
+            android:id="@+id/auCodpraca"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/auCodtabela"
+            android:hint="Praça" />
+
         <Button
             android:id="@+id/btAdicionaritens"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/auCodformapagto"
+            android:layout_below="@+id/auCodpraca"
             android:text="Adicionar Itens" />
 
         <LinearLayout
@@ -86,7 +93,7 @@
             android:id="@+id/ckNfe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/btAdicionaritens"
+            android:layout_below="@+id/relList"
             android:text="Emitir NF-e" />
 
         <LinearLayout

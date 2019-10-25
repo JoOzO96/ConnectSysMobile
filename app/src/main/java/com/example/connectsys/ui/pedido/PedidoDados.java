@@ -1,12 +1,17 @@
 package com.example.connectsys.ui.pedido;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -15,13 +20,18 @@ import androidx.navigation.Navigation;
 
 import com.example.connectsys.R;
 import com.example.connectsys.classes.cliente.Cliente;
+import com.example.connectsys.classes.configuracaogeral.ConfiguracaoGeral;
 import com.example.connectsys.classes.formapagto.FormaPagto;
 import com.example.connectsys.classes.pedido.Pedido;
+import com.example.connectsys.classes.pedidoproduto.PedidoItem;
+import com.example.connectsys.classes.praca.Praca;
+import com.example.connectsys.classes.produto.Produto;
 import com.example.connectsys.classes.tabelapreco.TabelaPreco;
 import com.example.connectsys.classes.vendedor.Vendedor;
 import com.example.connectsys.ui.pedidoproduto.PedidoProdutoTela;
 import com.example.connectsys.uteis.GetSetDinamico;
 import com.example.connectsys.uteis.GetSetDinamicoTelas;
+import com.example.connectsys.uteis.MostraToast;
 import com.example.connectsys.uteis.Sessao;
 import com.example.connectsys.uteis.SimpleFilterableAdapter;
 
@@ -43,11 +53,19 @@ public class PedidoDados extends Fragment {
     private AutoCompleteTextView auCodcliente;
     private AutoCompleteTextView auCodvendedor;
     private AutoCompleteTextView auCodformapagto;
+    String descricao = "";
+    List<PedidoItem> itensPedido = new ArrayList<>();
+    private AutoCompleteTextView auCodtabela;
     private TextView txCodpedido;
     private Button btAdicionaritens;
     private Button btCancelar;
     private Button btSalvar;
+    private AutoCompleteTextView auCodpraca;
     private Pedido pedido = new Pedido();
+    private ListView listItenspedido;
+    private List<String> pedidoProdutoList = new ArrayList<>();
+    private PedidoItem pedidoItem = new PedidoItem();
+    private Produto produto = new Produto();
 
     public PedidoDados() {
         // Required empty public constructor
@@ -59,10 +77,14 @@ public class PedidoDados extends Fragment {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_pedido_dados, container, false);
         List<Cliente> clienteList = Sessao.retornaClientes();
-
+        final MostraToast mostraToast = new MostraToast();
+        listItenspedido = view.findViewById(R.id.listItenspedido);
         auCodcliente = view.findViewById(R.id.auCodcliente);
+        txCodpedido = view.findViewById(R.id.txCodpedido);
         auCodvendedor = view.findViewById(R.id.auCodvendedor);
         auCodformapagto = view.findViewById(R.id.auCodformapagto);
+        auCodpraca = view.findViewById(R.id.auCodpraca);
+        auCodtabela = view.findViewById(R.id.auCodtabela);
         btAdicionaritens = view.findViewById(R.id.btAdicionaritens);
         btCancelar = view.findViewById(R.id.btCancelar);
         btSalvar = view.findViewById(R.id.btSalvar);
@@ -82,6 +104,52 @@ public class PedidoDados extends Fragment {
                 Navigation.findNavController(Sessao.retornaView()).navigate(R.id.action_nav_pedido_dados_pop);
             }
         });
+
+        listItenspedido.setOnItemLongClickListener(
+                new AdapterView.OnItemLongClickListener() {
+                    @Override
+                    public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                        final PedidoItem pedidoItem = itensPedido.get(i);
+                        produto = new Produto().retornaProduto(getContext(), pedidoItem.getCodproduto());
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+                        builder.setTitle("Confirm");
+                        builder.setMessage("Confirma a exclusao do item " + produto.getDescricao() + "?");
+
+                        builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                MostraToast toast = new MostraToast();
+                                boolean retorno = pedidoItem.removerPedidoItem(getContext(), pedidoItem.getCodpedidoitem());
+                                if (retorno == true) {
+                                    toast.mostraToastShort(getContext(), "Item excluido com sucesso");
+                                    Navigation.findNavController(Sessao.retornaView()).navigate(R.id.action_nav_pedido_dados_self);
+                                } else {
+                                    toast.mostraToastShort(getContext(), "Erro ao deletar item");
+                                }
+
+                                dialog.dismiss();
+                            }
+                        });
+
+                        builder.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                // Do nothing
+                                dialog.dismiss();
+                            }
+                        });
+
+                        AlertDialog alert = builder.create();
+                        alert.show();
+                        return true;
+                    }
+                }
+        );
 
         if (codpedido > 0) {
             pedido = new Pedido().retornaPedido(getContext(), codpedido);
@@ -109,6 +177,20 @@ public class PedidoDados extends Fragment {
                         auCodformapagto.setAdapter(adapter);
                         FormaPagto formaPagto = new FormaPagto().retornaFormapagto(getContext(), pedido.getCodformapagto());
                         getSetDinamicoTelas.colocaValorEditText(fieldListTela.get(i), view, fieldListTela, formaPagto.toString(), null);
+                    } else if (fieldListTela.get(i).getName().toLowerCase().equals("aucodtabela")) {
+                        Sessao.setaContext(getContext());
+                        List<TabelaPreco> tabelaPrecos = new TabelaPreco().retornaListaTabelaPrecos(getContext());
+                        TabelaPreco tabelaPreco = new TabelaPreco().retornaTabelaPreco(getContext(), pedido.getCodtabela());
+                        SimpleFilterableAdapter<TabelaPreco> adapter = new SimpleFilterableAdapter<>(getContext(), android.R.layout.simple_list_item_1, tabelaPrecos);
+                        auCodtabela.setAdapter(adapter);
+                        getSetDinamicoTelas.colocaValorEditText(fieldListTela.get(i), view, fieldListTela, tabelaPreco.toString(), null);
+                    } else if (fieldListTela.get(i).getName().toLowerCase().equals("aucodpraca")) {
+                        Sessao.setaContext(getContext());
+                        List<Praca> pracaList = new Praca().retornaListaPraca(getContext());
+                        Praca praca = new Praca().retornaPraca(getContext(), pedido.getCodpraca());
+                        SimpleFilterableAdapter<Praca> adapter = new SimpleFilterableAdapter<>(getContext(), android.R.layout.simple_list_item_1, pracaList);
+                        auCodpraca.setAdapter(adapter);
+                        getSetDinamicoTelas.colocaValorEditText(fieldListTela.get(i), view, fieldListTela, praca.toString(), null);
                     }
                 } else if (fieldListTela.get(i).getName().substring(0, 2).equals("tx")) {
                     if (fieldListTela.get(i).getName().toLowerCase().equals("txcodpedido")) {
@@ -117,7 +199,16 @@ public class PedidoDados extends Fragment {
                 }
 
             }
-
+            itensPedido = pedidoItem.retornaItensPedido(getContext(), codpedido);
+            for (int i = 0; itensPedido.size() > i; i++) {
+                //pedidoProdutoList.add(itensPedido.get(i).toString());
+                produto = new Produto().retornaProduto(getContext(), Long.parseLong(itensPedido.get(i).toString()));
+                descricao = itensPedido.get(i).getCodproduto() + " - " + produto.getDescricao() + " - Quant: " + itensPedido.get(i).getQuantidade() + " - Vl. Un.: " + itensPedido.get(i).getValorunitario() + " - Vl. Tot.: " + itensPedido.get(i).getValortotal();
+                pedidoProdutoList.add(descricao);
+                descricao = "";
+            }
+            ArrayAdapter<String> adapterItens = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, pedidoProdutoList);
+            listItenspedido.setAdapter(adapterItens);
 
         } else {
 
@@ -144,12 +235,18 @@ public class PedidoDados extends Fragment {
                         Sessao.setaContext(getContext());
                         List<TabelaPreco> tabelaPrecos = new TabelaPreco().retornaListaTabelaPrecos(getContext());
                         SimpleFilterableAdapter<TabelaPreco> adapter = new SimpleFilterableAdapter<>(getContext(), android.R.layout.simple_list_item_1, tabelaPrecos);
-                        auCodformapagto.setAdapter(adapter);
+                        auCodtabela.setAdapter(adapter);
+                    } else if (fieldListTela.get(i).getName().toLowerCase().equals("aucodpraca")) {
+                        Sessao.setaContext(getContext());
+                        List<Praca> pracaList = new Praca().retornaListaPraca(getContext());
+                        SimpleFilterableAdapter<Praca> adapter = new SimpleFilterableAdapter<>(getContext(), android.R.layout.simple_list_item_1, pracaList);
+                        auCodpraca.setAdapter(adapter);
                     }
 
                 }
             }
         }
+
 
         btAdicionaritens.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -160,7 +257,17 @@ public class PedidoDados extends Fragment {
                     FragmentManager fragmentManager = getFragmentManager();
                     PedidoProdutoTela pedidoProdutoTela = new PedidoProdutoTela();
                     Bundle bundle = new Bundle();
+                    bundle.putLong("codtabela", Long.parseLong(getSetDinamicoTelas.retornaValorEditText(view, "auCodtabela")));
+                    if (txCodpedido.getText().toString().equals("")) {
+                        bundle.putLong("codpedido", new Pedido().retornaMaiorCod(getContext()));
+                    } else {
+                        bundle.putLong("codpedido", Long.parseLong(getSetDinamicoTelas.retornaValorEditText(view, "codpedido")));
+                    }
+                    Sessao.setBundle(bundle);
+
+//                    Navigation.findNavController(Sessao.retornaView()).navigate(R.id.action_nav_pedido_dados_to_popup_pedido);
                     pedidoProdutoTela.show(fragmentManager, "Pedido Produto");
+
                 }
 
             }
@@ -188,7 +295,9 @@ public class PedidoDados extends Fragment {
                 }
             }
         }
-
+        ConfiguracaoGeral configuracaoGeral = new ConfiguracaoGeral();
+        configuracaoGeral = configuracaoGeral.retornaConfiguracaoGeral(getContext(), 4L);
+        pedido.setCodnaturezaoperacao(configuracaoGeral.getCodcfoppadraoproduto());
         Cliente cliente = new Cliente().retornaCliente(getContext(), pedido.getCodcliente());
         FormaPagto formaPagto = new FormaPagto().retornaFormapagto(getContext(), pedido.getCodformapagto());
         Vendedor vendedor = new Vendedor().retornaVendedorObjeto(getContext(), pedido.getCodvendedor());
@@ -196,14 +305,28 @@ public class PedidoDados extends Fragment {
             pedido.setNomecliente(cliente.getRazaosocial());
         }
         pedido.setData(new Date());
-
+        pedido.setOrcamentopedido("Pedido");
+        pedido.setCodrepresentante(vendedor.getCodvendedor());
+        pedido.getUsuario();
         salvo = pedido.cadastraPedido(getContext(), pedido);
-
-
         if (voltarparalista) {
             Navigation.findNavController(Sessao.retornaView()).navigate(R.id.action_nav_pedido_dados_pop);
         }
         return salvo;
     }
+
+//    public void atualizalista(Context context,  Long codpedido){
+//        pedidoProdutoList = new ArrayList<>();
+//        itensPedido = pedidoItem.retornaItensPedido(context, codpedido);
+//        for (int i = 0; itensPedido.size() > i; i++) {
+//            //pedidoProdutoList.add(itensPedido.get(i).toString());
+//            produto = new Produto().retornaProduto(context, Long.parseLong(itensPedido.get(i).toString()));
+//            descricao = itensPedido.get(i).getCodproduto() + " - " + produto.getDescricao() + " - Quant: " + itensPedido.get(i).getQuantidade() + " - Vl. Un.: " + itensPedido.get(i).getValorunitario() + " - Vl. Tot.: " + itensPedido.get(i).getValortotal();
+//            pedidoProdutoList.add(descricao);
+//            descricao = "";
+//        }
+//        ArrayAdapter<String> adapterItens = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, pedidoProdutoList);
+//        listItenspedido.setAdapter(adapterItens);
+//    }
 
 }

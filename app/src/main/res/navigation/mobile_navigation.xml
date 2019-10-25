@@ -36,6 +36,9 @@
             android:id="@+id/action_nav_pedido_dados_pop"
             app:popUpTo="@+id/nav_pedido"
             app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_nav_pedido_dados_self"
+            app:destination="@+id/nav_pedido_dados" />
     </fragment>
 
     <fragment
