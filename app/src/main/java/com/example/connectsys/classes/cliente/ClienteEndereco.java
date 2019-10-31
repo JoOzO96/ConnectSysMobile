@@ -184,8 +184,9 @@ public class ClienteEndereco {
         return Objects.hash(getCodendereco(), getCodcliente(), getCodcidade(), getEndereco(), getNumero(), getComplemento(), getCodbairro(), getCep(), getFone(), getFonefax(), getFonecelular(), getTipo(), getObs(), getInscricaoestadual());
     }
 
-    public ClienteEndereco retornaClienteEndereco(Context context, Long codCliente) {
+    public List<ClienteEndereco> retornaClienteEndereco(Context context, Long codCliente) {
         Banco myDb = new Banco(context);
+        List<ClienteEndereco> clienteEnderecos = new ArrayList<>();
         ClienteEndereco clienteEndereco = new ClienteEndereco();
         GetSetDinamico getSetDinamico = new GetSetDinamico();
         SQLiteDatabase db = myDb.getReadableDatabase();
@@ -208,9 +209,10 @@ public class ClienteEndereco {
                 }
             }
             clienteEndereco = clienteEndereco1;
+            clienteEnderecos.add(clienteEndereco);
         }
         db.close();
-        return clienteEndereco;
+        return clienteEnderecos;
     }
 
     public ClienteEndereco retornaEndereco(Context context, Long codendereco) {

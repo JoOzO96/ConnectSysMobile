@@ -29,12 +29,13 @@ public class NaturezaOperacao {
     Boolean mostrarnorelatorio;
     String descricaomostrar;
     Boolean exibir;
-    Boolean devolucao;
     Boolean remessa;
     Boolean transporte;
     Boolean prevalecer;
     Boolean solicitarnfce;
     Boolean semimposto90900;
+    Boolean forcarmovimentacaoestoque;
+    String finalidade;
 
     public Long getCodnaturezaoperacao() {
         return codnaturezaoperacao;
@@ -132,14 +133,6 @@ public class NaturezaOperacao {
         this.exibir = exibir;
     }
 
-    public Boolean getDevolucao() {
-        return devolucao;
-    }
-
-    public void setDevolucao(Boolean devolucao) {
-        this.devolucao = devolucao;
-    }
-
     public Boolean getRemessa() {
         return remessa;
     }
@@ -180,6 +173,22 @@ public class NaturezaOperacao {
         this.semimposto90900 = semimposto90900;
     }
 
+    public Boolean getForcarmovimentacaoestoque() {
+        return forcarmovimentacaoestoque;
+    }
+
+    public void setForcarmovimentacaoestoque(Boolean forcarmovimentacaoestoque) {
+        this.forcarmovimentacaoestoque = forcarmovimentacaoestoque;
+    }
+
+    public String getFinalidade() {
+        return finalidade;
+    }
+
+    public void setFinalidade(String finalidade) {
+        this.finalidade = finalidade;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -197,7 +206,6 @@ public class NaturezaOperacao {
                 Objects.equals(getMostrarnorelatorio(), that.getMostrarnorelatorio()) &&
                 Objects.equals(getDescricaomostrar(), that.getDescricaomostrar()) &&
                 Objects.equals(getExibir(), that.getExibir()) &&
-                Objects.equals(getDevolucao(), that.getDevolucao()) &&
                 Objects.equals(getRemessa(), that.getRemessa()) &&
                 Objects.equals(getTransporte(), that.getTransporte()) &&
                 Objects.equals(getPrevalecer(), that.getPrevalecer()) &&
@@ -207,7 +215,7 @@ public class NaturezaOperacao {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getCodnaturezaoperacao(), getDescricao(), getCfop(), getCfopf(), getAcumulado(), getCodnfe(), getSituacaotributaria(), getCsosn(), getMovimentarestoque(), getMostrarnorelatorio(), getDescricaomostrar(), getExibir(), getDevolucao(), getRemessa(), getTransporte(), getPrevalecer(), getSolicitarnfce(), getSemimposto90900());
+        return Objects.hash(getCodnaturezaoperacao(), getDescricao(), getCfop(), getCfopf(), getAcumulado(), getCodnfe(), getSituacaotributaria(), getCsosn(), getMovimentarestoque(), getMostrarnorelatorio(), getDescricaomostrar(), getExibir(), getRemessa(), getTransporte(), getPrevalecer(), getSolicitarnfce(), getSemimposto90900());
     }
 
     public Boolean cadastraNaturezaOperacao(Context context, NaturezaOperacao naturezaOperacao) {

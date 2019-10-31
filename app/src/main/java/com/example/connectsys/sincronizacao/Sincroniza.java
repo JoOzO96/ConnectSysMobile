@@ -30,6 +30,8 @@ public class Sincroniza {
         SincPedidoProduto sincPedidoProduto = new SincPedidoProduto();
         SincConfiguracaoGeral sincConfiguracaoGeral = new SincConfiguracaoGeral();
         SincPraca sincPraca = new SincPraca();
+        SincClienteOcupacao sincClienteOcupacao = new SincClienteOcupacao();
+        SincConceito sincConceito = new SincConceito();
         String ip = null;
         Sessao.iniciaProgress();
         Sessao.colocaTexto("Verificando dados do IP.");
@@ -46,6 +48,8 @@ public class Sincroniza {
             sincTabelaPreco.iniciaAsinc(context, ip);
             sincPraca.iniciaAsinc(context, ip);
             sincCliente.iniciaAsinc(context, ip);
+            sincConceito.iniciaAsinc(context, ip);
+            sincClienteOcupacao.iniciaAsinc(context, ip);
             sincClienteEndereco.iniciaAsinc(context, ip);
             sincFormaPagto.iniciaASinc(context, ip);
             sincCidade.iniciaAsinc(context, ip);

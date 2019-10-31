@@ -35,10 +35,17 @@
             android:hint="Nome cliente" />
 
         <AutoCompleteTextView
-            android:id="@+id/auCodvendedor"
+            android:id="@+id/auCodendereco"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/auCodcliente"
+            android:hint="Endereço" />
+
+        <AutoCompleteTextView
+            android:id="@+id/auCodvendedor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/auCodendereco"
             android:hint="Código do Vendedor" />
 
         <AutoCompleteTextView

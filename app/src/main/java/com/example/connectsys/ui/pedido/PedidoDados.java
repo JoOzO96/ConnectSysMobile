@@ -20,6 +20,7 @@ import androidx.navigation.Navigation;
 
 import com.example.connectsys.R;
 import com.example.connectsys.classes.cliente.Cliente;
+import com.example.connectsys.classes.cliente.ClienteEndereco;
 import com.example.connectsys.classes.configuracaogeral.ConfiguracaoGeral;
 import com.example.connectsys.classes.formapagto.FormaPagto;
 import com.example.connectsys.classes.pedido.Pedido;
@@ -53,6 +54,7 @@ public class PedidoDados extends Fragment {
     private AutoCompleteTextView auCodcliente;
     private AutoCompleteTextView auCodvendedor;
     private AutoCompleteTextView auCodformapagto;
+    private AutoCompleteTextView auCodendereco;
     String descricao = "";
     List<PedidoItem> itensPedido = new ArrayList<>();
     private AutoCompleteTextView auCodtabela;
@@ -76,12 +78,13 @@ public class PedidoDados extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_pedido_dados, container, false);
-        List<Cliente> clienteList = Sessao.retornaClientes();
+        final List<Cliente> clienteList = Sessao.retornaClientes();
         final MostraToast mostraToast = new MostraToast();
         listItenspedido = view.findViewById(R.id.listItenspedido);
         auCodcliente = view.findViewById(R.id.auCodcliente);
         txCodpedido = view.findViewById(R.id.txCodpedido);
         auCodvendedor = view.findViewById(R.id.auCodvendedor);
+        auCodendereco = view.findViewById(R.id.auCodendereco);
         auCodformapagto = view.findViewById(R.id.auCodformapagto);
         auCodpraca = view.findViewById(R.id.auCodpraca);
         auCodtabela = view.findViewById(R.id.auCodtabela);
@@ -151,6 +154,31 @@ public class PedidoDados extends Fragment {
                 }
         );
 
+        listItenspedido.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View v, int i, long l) {
+                salvo = salvaPedido(view, false, false);
+
+                if (salvo) {
+                    FragmentManager fragmentManager = getFragmentManager();
+                    PedidoProdutoTela pedidoProdutoTela = new PedidoProdutoTela();
+                    Bundle bundle = new Bundle();
+                    bundle.putLong("codtabela", Long.parseLong(getSetDinamicoTelas.retornaValorEditText(view, "auCodtabela")));
+                    if (txCodpedido.getText().toString().equals("")) {
+                        bundle.putLong("codpedido", new Pedido().retornaMaiorCod(getContext()));
+                    } else {
+                        bundle.putLong("codpedido", Long.parseLong(getSetDinamicoTelas.retornaValorEditText(view, "codpedido")));
+                    }
+
+                    bundle.putLong("codproduto", Long.parseLong(listItenspedido.getItemAtPosition(i).toString().substring(0, (listItenspedido.getItemAtPosition(i).toString().indexOf("-") - 1))));
+                    Sessao.setBundle(bundle);
+                    pedidoProdutoTela.show(fragmentManager, "Pedido Produto");
+
+                }
+
+            }
+        });
+
         if (codpedido > 0) {
             pedido = new Pedido().retornaPedido(getContext(), codpedido);
             for (int i = 0; fieldListTela.size() > i; i++) {
@@ -191,6 +219,13 @@ public class PedidoDados extends Fragment {
                         SimpleFilterableAdapter<Praca> adapter = new SimpleFilterableAdapter<>(getContext(), android.R.layout.simple_list_item_1, pracaList);
                         auCodpraca.setAdapter(adapter);
                         getSetDinamicoTelas.colocaValorEditText(fieldListTela.get(i), view, fieldListTela, praca.toString(), null);
+                    } else if (fieldListTela.get(i).getName().toLowerCase().equals("aucodendereco")) {
+                        Sessao.setaContext(getContext());
+                        List<ClienteEndereco> clienteEnderecos = new ClienteEndereco().retornaClienteEndereco(getContext(), pedido.getCodcliente());
+                        ClienteEndereco clienteEndereco = new ClienteEndereco().retornaEndereco(getContext(), pedido.getCodendereco());
+                        SimpleFilterableAdapter<ClienteEndereco> adapter = new SimpleFilterableAdapter<>(getContext(), android.R.layout.simple_list_item_1, clienteEnderecos);
+                        auCodpraca.setAdapter(adapter);
+                        getSetDinamicoTelas.colocaValorEditText(fieldListTela.get(i), view, fieldListTela, clienteEndereco.toString(), null);
                     }
                 } else if (fieldListTela.get(i).getName().substring(0, 2).equals("tx")) {
                     if (fieldListTela.get(i).getName().toLowerCase().equals("txcodpedido")) {
@@ -247,6 +282,17 @@ public class PedidoDados extends Fragment {
             }
         }
 
+        auCodcliente.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Cliente cliente = clienteList.get(i);
+                List<ClienteEndereco> clienteEndereco = new ClienteEndereco().retornaClienteEndereco(getContext(), cliente.getCodcliente());
+                SimpleFilterableAdapter<ClienteEndereco> adapter = new SimpleFilterableAdapter<>(getContext(), android.R.layout.simple_list_item_1, clienteEndereco);
+                auCodendereco.setAdapter(adapter);
+                auCodendereco.setText(clienteEndereco.get(0).toString());
+            }
+        });
+
 
         btAdicionaritens.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -263,6 +309,7 @@ public class PedidoDados extends Fragment {
                     } else {
                         bundle.putLong("codpedido", Long.parseLong(getSetDinamicoTelas.retornaValorEditText(view, "codpedido")));
                     }
+                    bundle.putLong("codproduto", 0L);
                     Sessao.setBundle(bundle);
 
 //                    Navigation.findNavController(Sessao.retornaView()).navigate(R.id.action_nav_pedido_dados_to_popup_pedido);
@@ -304,6 +351,7 @@ public class PedidoDados extends Fragment {
         if (!cliente.equals(new Cliente())) {
             pedido.setNomecliente(cliente.getRazaosocial());
         }
+        pedido.setCodemitente(1L);
         pedido.setData(new Date());
         pedido.setOrcamentopedido("Pedido");
         pedido.setCodrepresentante(vendedor.getCodvendedor());

@@ -56,6 +56,7 @@ public class PedidoProdutoTela extends DialogFragment {
     private EditText txValortotal;
     private Long codtabela;
     private Long codpedido;
+    private Long codproduto;
     //    private Spinner spProduto;
     private Long contaAcessos;
     private Boolean evitaLoop;
@@ -80,6 +81,7 @@ public class PedidoProdutoTela extends DialogFragment {
         Bundle bundle = Sessao.retornaBundle();
         codtabela = bundle.getLong("codtabela");
         codpedido = bundle.getLong("codpedido");
+        codproduto = bundle.getLong("codproduto");
         auCodproduto = view.findViewById(R.id.auCodproduto);
         txQuantidade = view.findViewById(R.id.txQuantidade);
         txValorunitario = view.findViewById(R.id.txValorunitario);
@@ -93,6 +95,7 @@ public class PedidoProdutoTela extends DialogFragment {
             }
         });
         Sessao.setaContext(getContext());
+
         List<Produto> listaCidade = Sessao.retornaProduto();
         SimpleFilterableAdapter<Produto> adapter = new SimpleFilterableAdapter<>(getContext(), android.R.layout.simple_list_item_1, listaCidade);
         auCodproduto.setAdapter(adapter);
@@ -176,6 +179,7 @@ public class PedidoProdutoTela extends DialogFragment {
         btSalvar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                txValortotal.requestFocus();
                 salvaPedidoItem(view);
                 dismiss();
 //                Navigation.findNavController(Sessao.retornaView()).navigate(R.id.);
@@ -194,6 +198,16 @@ public class PedidoProdutoTela extends DialogFragment {
 //                new PedidoDados().atualizalista(Sessao.retornaContext(),codpedido);
             }
         });
+
+        if (codproduto > 0) {
+            Produto produto = new Produto().retornaProduto(getContext(), codproduto);
+            auCodproduto.setText(produto.toString());
+            pedidoItem = new PedidoItem().retornaItemPedido(getContext(), codpedido, codproduto);
+            txValortotal.setText(pedidoItem.getValortotal().toString());
+            txValorunitario.setText(pedidoItem.getValorunitario().toString());
+            txQuantidade.setText(pedidoItem.getQuantidade().toString());
+            txValorunitario.requestFocus();
+        }
 
         return view;
     }
@@ -232,7 +246,8 @@ public class PedidoProdutoTela extends DialogFragment {
         } else {
             pedidoItem.setCodnaturezaoperacao(produto.getCodnaturezapadrao()); //SE FOR FINAL VER ISSO
         }
-
+        pedidoItem.setTipoitem(produto.getTipoproduto());
+        pedidoItem.setNumerointerno(produto.getNumerointerno());
         pedidoItem.setCodpedido(codpedido);
         pedidoItem.cadastraPedidoItem(getContext(), pedidoItem);
     }

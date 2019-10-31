@@ -472,12 +472,13 @@ public class Banco extends SQLiteOpenHelper {
         executaSQL(db, "ALTER TABLE naturezaoperacao ADD COLUMN mostrarnorelatorio BOOLEAN");
         executaSQL(db, "ALTER TABLE naturezaoperacao ADD COLUMN descricaomostrar TEXT");
         executaSQL(db, "ALTER TABLE naturezaoperacao ADD COLUMN exibir BOOLEAN");
-        executaSQL(db, "ALTER TABLE naturezaoperacao ADD COLUMN devolucao BOOLEAN");
         executaSQL(db, "ALTER TABLE naturezaoperacao ADD COLUMN remessa BOOLEAN");
         executaSQL(db, "ALTER TABLE naturezaoperacao ADD COLUMN transporte BOOLEAN");
         executaSQL(db, "ALTER TABLE naturezaoperacao ADD COLUMN prevalecer BOOLEAN");
         executaSQL(db, "ALTER TABLE naturezaoperacao ADD COLUMN solicitarnfce BOOLEAN");
         executaSQL(db, "ALTER TABLE naturezaoperacao ADD COLUMN semimposto90900 BOOLEAN");
+        executaSQL(db, "ALTER TABLE naturezaoperacao ADD COLUMN forcarmovimentacaoestoque BOOLEAN");
+        executaSQL(db, "ALTER TABLE naturezaoperacao ADD COLUMN finalidade TEXT");
 
         executaSQL(db, "CREATE TABLE configuracaogeral (codconfiguracao LONG PRIMARY KEY)");
         executaSQL(db, "ALTER TABLE configuracaogeral ADD COLUMN limitecreditopadrao DOUBLE");
@@ -605,8 +606,6 @@ public class Banco extends SQLiteOpenHelper {
         executaSQL(db, "ALTER TABLE configuracaogeral ADD COLUMN botao6 TEXT");
         executaSQL(db, "ALTER TABLE configuracaogeral ADD COLUMN diasretroativos LONG");
         executaSQL(db, "ALTER TABLE configuracaogeral ADD COLUMN usarcfopoutrosnoestorno BOOLEAN");
-        executaSQL(db, "ALTER TABLE configuracaogeral ADD COLUMN percentualminimopadrao LONG");
-        executaSQL(db, "ALTER TABLE configuracaogeral ADD COLUMN percentualpadrao LONG");
         executaSQL(db, "ALTER TABLE configuracaogeral ADD COLUMN mostrartotalvendanocontasreceber BOOLEAN");
         executaSQL(db, "ALTER TABLE configuracaogeral ADD COLUMN bloquearcasonaopreenchidocfop BOOLEAN");
         executaSQL(db, "ALTER TABLE configuracaogeral ADD COLUMN bloquearsemregimetributario BOOLEAN");
@@ -705,6 +704,9 @@ public class Banco extends SQLiteOpenHelper {
         executaSQL(db, "ALTER TABLE configuracaogeral ADD COLUMN codnaturezadevolucaosaida LONG");
         executaSQL(db, "ALTER TABLE configuracaogeral ADD COLUMN imprimiravisognredifal BOOLEAN");
         executaSQL(db, "ALTER TABLE configuracaogeral ADD COLUMN bloquearduplicidadeentrada BOOLEAN");
+        executaSQL(db, "ALTER TABLE configuracaogeral ADD COLUMN entradasemitem BOOLEAN");
+        executaSQL(db, "ALTER TABLE configuracaogeral ADD COLUMN imprimirdescricaoresumida BOOLEAN");
+        executaSQL(db, "ALTER TABLE configuracaogeral ADD COLUMN cfoppadraocadastroprodutost LONG");
 
         executaSQL(db, "CREATE TABLE praca (codpraca LONG PRIMARY KEY)");
         executaSQL(db, "ALTER TABLE praca ADD COLUMN nome TEXT");
@@ -797,6 +799,21 @@ public class Banco extends SQLiteOpenHelper {
         executaSQL(db, "ALTER TABLE emitente ADD COLUMN versaotabelaibpt TEXT");
         executaSQL(db, "ALTER TABLE emitente ADD COLUMN regimeespecial TEXT");
         executaSQL(db, "ALTER TABLE emitente ADD COLUMN intervalobackup LONG");
+
+        executaSQL(db, "CREATE TABLE emitentenota (codemitentenota LONG PRIMARY KEY)");
+        executaSQL(db, "ALTER TABLE emitentenota ADD COLUMN codemitente LONG");
+        executaSQL(db, "ALTER TABLE emitentenota ADD COLUMN descricao TEXT");
+        executaSQL(db, "ALTER TABLE emitentenota ADD COLUMN modelo TEXT");
+        executaSQL(db, "ALTER TABLE emitentenota ADD COLUMN serie TEXT");
+        executaSQL(db, "ALTER TABLE emitentenota ADD COLUMN codnatureza LONG");
+        executaSQL(db, "ALTER TABLE emitentenota ADD COLUMN bloquearcasonaopreenchidocfop BOOLEAN");
+
+        executaSQL(db, "CREATE TABLE clienteocupacao (codocupacao LONG PRIMARY KEY)");
+        executaSQL(db, "ALTER TABLE clienteocupacao ADD COLUMN descricao TEXT");
+
+        executaSQL(db, "CREATE TABLE clienteconceito (codconceito LONG PRIMARY KEY)");
+        executaSQL(db, "ALTER TABLE clienteconceito ADD COLUMN nome TEXT");
+        executaSQL(db, "ALTER TABLE clienteconceito ADD COLUMN descricao TEXT");
 
     }
 

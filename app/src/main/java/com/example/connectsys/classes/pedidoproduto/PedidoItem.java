@@ -751,4 +751,30 @@ public class PedidoItem {
         int retorno = db.update("pedidoitem", values, campo + " = 1", null);
 
     }
+
+    public PedidoItem retornaItemPedido(Context context, Long codpedido, Long codproduto) {
+        Banco myDb = new Banco(context);
+        PedidoItem pedidoItem = new PedidoItem();
+        GetSetDinamico getSetDinamico = new GetSetDinamico();
+        SQLiteDatabase db = myDb.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT rowid _id,* FROM pedidoitem where codpedido = " + codpedido + " and codproduto =" + codproduto, null);
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+        }
+        List<Field> fieldList = new ArrayList<>(Arrays.asList(PedidoItem.class.getDeclaredFields()));
+        for (int j = 0; cursor.getCount() != j; j++) {
+            pedidoItem = new PedidoItem();
+            for (int f = 0; fieldList.size() != f; f++) {
+                String tipo = getSetDinamico.retornaTipoCampo(fieldList.get(f));
+                String nomeCampo = fieldList.get(f).getName().toLowerCase();
+                Object retorno = getSetDinamico.retornaValorCursor(tipo, nomeCampo, cursor);
+                if (retorno != null) {
+                    Object ret = getSetDinamico.insereField(fieldList.get(f), pedidoItem, retorno);
+                    pedidoItem = (PedidoItem) ret;
+                }
+            }
+        }
+        db.close();
+        return pedidoItem;
+    }
 }

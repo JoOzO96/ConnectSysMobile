@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -16,12 +17,17 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import com.example.connectsys.R;
+import com.example.connectsys.classes.cidade.Cidade;
 import com.example.connectsys.classes.cliente.Cliente;
 import com.example.connectsys.classes.cliente.ClienteEndereco;
+import com.example.connectsys.classes.clienteconceito.ClienteConceito;
+import com.example.connectsys.classes.clienteocupacao.ClienteOcupacao;
+import com.example.connectsys.classes.vendedor.Vendedor;
 import com.example.connectsys.uteis.GetSetDinamico;
 import com.example.connectsys.uteis.GetSetDinamicoTelas;
 import com.example.connectsys.uteis.Mascara;
 import com.example.connectsys.uteis.Sessao;
+import com.example.connectsys.uteis.SimpleFilterableAdapter;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -37,6 +43,10 @@ public class ClienteDados extends Fragment {
     GetSetDinamico getSetDinamico = new GetSetDinamico();
     GetSetDinamicoTelas getSetDinamicoTelas = new GetSetDinamicoTelas();
     private ListView listEnderecos;
+    private AutoCompleteTextView auCodcidade;
+    private AutoCompleteTextView auCodocupacao;
+    private AutoCompleteTextView auCodrepresentante;
+    private AutoCompleteTextView auCodconceito;
     private EditText txCodcliente;
     private EditText txRazaosocial;
     private EditText txNomefantasia;
@@ -150,11 +160,23 @@ public class ClienteDados extends Fragment {
 
     private void salvaCadastro(View view) {
         List<Field> fieldList = new ArrayList<Field>(Arrays.asList(Cliente.class.getDeclaredFields()));
+        List<Field> fieldListTela = new ArrayList<Field>(Arrays.asList(ClienteDados.class.getDeclaredFields()));
         String valorCampo = "";
         String nomecampo = "";
         for (int i = 0; fieldList.size() != i; i++) {
             valorCampo = "";
             nomecampo = fieldList.get(i).getName();
+            for (int j = 0; fieldListTela.size() > j; j++) {
+
+                if (fieldList.get(i).getName().toLowerCase().equals(fieldListTela.get(j).getName().toLowerCase().substring(2))) {
+                    if (fieldListTela.get(j).getName().toLowerCase().substring(0, 2).equals("au")) {
+                        nomecampo = "au" + nomecampo.substring(0, 1).toUpperCase() + nomecampo.substring(1).toLowerCase();
+                        break;
+                    }
+                }
+            }
+
+
             if (fieldList.get(i).getType().getSimpleName().toUpperCase().equals("BOOLEAN")) {
                 valorCampo = getSetDinamicoTelas.retornaValorEditText(view, nomecampo);
             } else {
@@ -174,9 +196,8 @@ public class ClienteDados extends Fragment {
                 retorno = getSetDinamico.insereField(fieldList.get(i), cliente, valorCampo);
                 cliente = (Cliente) retorno;
             }
-
         }
-
+        cliente.setStatus("Ativo");
         if (!ckFisica.isChecked()) {
             cliente.setFisicajuridica("Jurídica");
             cliente.setCpf("");
@@ -250,6 +271,46 @@ public class ClienteDados extends Fragment {
                     clienteEnderecos = new ClienteEndereco().retornaListaClienteEndereco(getContext(), codigoCliente);
                     ArrayAdapter<ClienteEndereco> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, clienteEnderecos);
                     listEnderecos.setAdapter(adapter);
+                } else if (fieldListPassar.get(i).getName().equals("auCodcidade")) {
+                    auCodcidade = (AutoCompleteTextView) getSetDinamicoTelas.retornaIDCampo(view, "auCodcidade");
+                    List<Cidade> listaCidade = Sessao.retornaCidade();
+                    SimpleFilterableAdapter<Cidade> adapter = new SimpleFilterableAdapter<>(getContext(), android.R.layout.simple_list_item_1, listaCidade);
+                    auCodcidade.setAdapter(adapter);
+                    if (cliente.getCodcidade() != null) {
+                        auCodcidade.setText(new Cidade().retornaCidadeObjeto(getContext(), cliente.getCodcidade()).toString());
+                    }
+                } else if (fieldListPassar.get(i).getName().equals("auCodocupacao")) {
+                    auCodocupacao = (AutoCompleteTextView) getSetDinamicoTelas.retornaIDCampo(view, "auCodocupacao");
+                    List<ClienteOcupacao> clienteOcupacaoList = new ClienteOcupacao().retornaListaClienteOcupacao(getContext());
+                    SimpleFilterableAdapter<ClienteOcupacao> adapter = new SimpleFilterableAdapter<>(getContext(), android.R.layout.simple_list_item_1, clienteOcupacaoList);
+                    auCodocupacao.setAdapter(adapter);
+                    if (cliente.getCodcidade() != null) {
+                        auCodocupacao.setText(new ClienteOcupacao().retornaClienteOcupacao(getContext(), cliente.getCodocupacao()).toString());
+                    }
+                } else if (fieldListPassar.get(i).getName().equals("auCodrepesentante")) {
+                    auCodrepresentante = (AutoCompleteTextView) getSetDinamicoTelas.retornaIDCampo(view, "auCodrepesentante");
+                    List<Vendedor> vendedorList = new Vendedor().retornaListaVendedor(getContext());
+                    SimpleFilterableAdapter<Vendedor> adapter = new SimpleFilterableAdapter<>(getContext(), android.R.layout.simple_list_item_1, vendedorList);
+                    auCodrepresentante.setAdapter(adapter);
+                    if (cliente.getCodrepresentante() != null) {
+                        auCodrepresentante.setText(new Vendedor().retornaVendedorObjeto(getContext(), cliente.getCodrepresentante()).toString());
+                    }
+                } else if (fieldListPassar.get(i).getName().equals("auCodrepresentante")) {
+                    auCodrepresentante = (AutoCompleteTextView) getSetDinamicoTelas.retornaIDCampo(view, "auCodrepresentante");
+                    List<Vendedor> vendedorList = new Vendedor().retornaListaVendedor(getContext());
+                    SimpleFilterableAdapter<Vendedor> adapter = new SimpleFilterableAdapter<>(getContext(), android.R.layout.simple_list_item_1, vendedorList);
+                    auCodrepresentante.setAdapter(adapter);
+                    if (cliente.getCodrepresentante() != null) {
+                        auCodrepresentante.setText(new Vendedor().retornaVendedorObjeto(getContext(), cliente.getCodrepresentante()).toString());
+                    }
+                } else if (fieldListPassar.get(i).getName().equals("auCodconceito")) {
+                    auCodconceito = (AutoCompleteTextView) getSetDinamicoTelas.retornaIDCampo(view, "auCodconceito");
+                    List<ClienteConceito> clienteConceitoList = new ClienteConceito().retornaListaClienteConceito(getContext());
+                    SimpleFilterableAdapter<ClienteConceito> adapter = new SimpleFilterableAdapter<>(getContext(), android.R.layout.simple_list_item_1, clienteConceitoList);
+                    auCodconceito.setAdapter(adapter);
+                    if (cliente.getCodrepresentante() != null) {
+                        auCodconceito.setText(new ClienteConceito().retornaClienteConceito(getContext(), cliente.getCodconceito()).toString());
+                    }
                 }
             }
         }

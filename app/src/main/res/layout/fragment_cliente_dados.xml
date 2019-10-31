@@ -114,12 +114,18 @@
                 android:inputType="number" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <AutoCompleteTextView
+            android:id="@+id/auCodcidade"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/textInputLayout4"
+            android:hint="Cidade"></AutoCompleteTextView>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayout5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/textInputLayout4"
+            android:layout_below="@+id/auCodcidade"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
             android:hint="Inscricao Estadual">
@@ -223,11 +229,32 @@
                 android:text="Consumidor Final" />
         </LinearLayout>
 
+        <AutoCompleteTextView
+            android:id="@+id/auCodocupacao"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/linearXmlPdf"
+            android:hint="Ocupação"></AutoCompleteTextView>
+
+        <AutoCompleteTextView
+            android:id="@+id/auCodrepresentante"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/auCodocupacao"
+            android:hint="Representante"></AutoCompleteTextView>
+
+        <AutoCompleteTextView
+            android:id="@+id/auCodconceito"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/auCodrepresentante"
+            android:hint="Conceito"></AutoCompleteTextView>
+
         <Button
             android:id="@+id/btCadastroendereco"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/linearXmlPdf"
+            android:layout_below="@+id/auCodconceito"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
             android:text="Adicionar Endereço" />

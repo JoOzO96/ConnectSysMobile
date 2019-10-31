@@ -142,8 +142,6 @@ public class ConfiguracaoGeral {
     String botao6;
     Long diasretroativos;
     Boolean usarcfopoutrosnoestorno;
-    Double percentualminimopadrao;
-    Double percentualpadrao;
     Boolean mostrartotalvendanocontasreceber;
     Boolean bloquearcasonaopreenchidocfop;
     Boolean bloquearsemregimetributario;
@@ -242,6 +240,9 @@ public class ConfiguracaoGeral {
     Long codnaturezadevolucaosaida;
     Boolean imprimiravisognredifal;
     Boolean bloquearduplicidadeentrada;
+    Boolean entradasemitem;
+    Boolean imprimirdescricaoresumida;
+    Long cfoppadraocadastroprodutost;
 
     public Long getCodconfiguracao() {
         return codconfiguracao;
@@ -1251,22 +1252,6 @@ public class ConfiguracaoGeral {
         this.usarcfopoutrosnoestorno = usarcfopoutrosnoestorno;
     }
 
-    public Double getPercentualminimopadrao() {
-        return percentualminimopadrao;
-    }
-
-    public void setPercentualminimopadrao(Double percentualminimopadrao) {
-        this.percentualminimopadrao = percentualminimopadrao;
-    }
-
-    public Double getPercentualpadrao() {
-        return percentualpadrao;
-    }
-
-    public void setPercentualpadrao(Double percentualpadrao) {
-        this.percentualpadrao = percentualpadrao;
-    }
-
     public Boolean getMostrartotalvendanocontasreceber() {
         return mostrartotalvendanocontasreceber;
     }
@@ -2051,6 +2036,29 @@ public class ConfiguracaoGeral {
         this.bloquearduplicidadeentrada = bloquearduplicidadeentrada;
     }
 
+    public Boolean getEntradasemitem() {
+        return entradasemitem;
+    }
+
+    public void setEntradasemitem(Boolean entradasemitem) {
+        this.entradasemitem = entradasemitem;
+    }
+
+    public Boolean getImprimirdescricaoresumida() {
+        return imprimirdescricaoresumida;
+    }
+
+    public void setImprimirdescricaoresumida(Boolean imprimirdescricaoresumida) {
+        this.imprimirdescricaoresumida = imprimirdescricaoresumida;
+    }
+
+    public Long getCfoppadraocadastroprodutost() {
+        return cfoppadraocadastroprodutost;
+    }
+
+    public void setCfoppadraocadastroprodutost(Long cfoppadraocadastroprodutost) {
+        this.cfoppadraocadastroprodutost = cfoppadraocadastroprodutost;
+    }
 
     public Cursor retornaConfiguracaoGeralFiltradoCursor(Context context, Long codconfiguracao) {
         Banco myDb = new Banco(context);
